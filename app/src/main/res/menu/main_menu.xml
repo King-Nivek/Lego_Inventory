@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
   <item android:id="@+id/menuItem_sets"
-        android:title="Sets"/>
+        android:title="@string/menu_item_sets"
+        android:orderInCategory="1"/>
 
   <item android:id="@+id/menuItem_themes"
-        android:title="Themes"/>
+        android:title="@string/menu_item_themes"
+        android:orderInCategory="2"/>
 
   <item android:id="@+id/menuItem_reports"
-        android:title="Reports"/>
+        android:title="@string/menu_item_reports"
+        android:orderInCategory="3"/>
 
 </menu>
