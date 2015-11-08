@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+  <item android:id="@+id/menuItem_sets"
+        android:title="Sets"/>
+
+  <item android:id="@+id/menuItem_themes"
+        android:title="Themes"/>
+
+  <item android:id="@+id/menuItem_reports"
+        android:title="Reports"/>
+
+</menu>
