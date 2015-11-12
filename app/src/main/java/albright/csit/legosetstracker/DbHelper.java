@@ -11,5 +11,6 @@ Last Modified:  11.12.2015
 ______________________________________________________________________________*/
 package albright.csit.legosetstracker;
 
-public class LegoSetSqlOpenHelper {
+public class DbHelper {
+
 }
