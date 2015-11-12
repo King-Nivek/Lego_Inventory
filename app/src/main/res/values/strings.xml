@@ -1,9 +1,30 @@
 <resources>
-  <string name="app_name">Lego Sets Tracker</string>
+    <string name="app_name">Lego Sets Tracker</string>
 
-  <!--  Main Menu Items  -->
-  <string name="menu_item_sets">Sets</string>
-  <string name="menu_item_themes">Themes</string>
-  <string name="menu_item_reports">Reports</string>
+    <!--  Main Menu Items  -->
+    <string name="menu_item_sets">Sets</string>
+    <string name="menu_item_themes">Themes</string>
+    <string name="menu_item_reports">Reports</string>
 
+    <!--  set_create_update_layout.xml resources  -->
+    <string name="update_lbl_set_info">Set Info:</string>
+    <string name="update_hint_setNumber">Set Number:</string>
+    <string name="update_hint_setName">Set Name:</string>
+    <string name="update_spinnerPromt_theme">Themes:</string>
+    <string name="update_hint_setNumberOfPieces">Number of Pieces:</string>
+    <string name="update_lbl_other_info">Other Info:</string>
+    <string name="update_lbl_date_acquired">Date of First Acquisition:</string>
+    <string name="update_button_lbl_initialText">Choose a date</string>
+    <string name="update_hint_quantityOwned">Quantity Owned:</string>
+    <string name="update_button_cancel">Cancel</string>
+    <string name="update_button_save">Save</string>
+
+    <!--  For Testing Purposes  -->
+    <string-array name="SpinnerTestData">
+        <item>Item1</item>
+        <item>Item2</item>
+        <item>Item3</item>
+        <item>Item4</item>
+        <item>Item5</item>
+    </string-array>
 </resources>
