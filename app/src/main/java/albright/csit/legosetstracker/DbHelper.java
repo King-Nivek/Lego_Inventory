@@ -9,87 +9,102 @@ Last Modified:  11.12.2015
     File Name:  LegoSetSqlOpenHelper
       Purpose:  
 ______________________________________________________________________________*/
+
 package albright.csit.legosetstracker;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.provider.BaseColumns;
 
-public class DbHelper extends SQLiteOpenHelper {
+import java.sql.SQLException;
 
-  ////  Fields
-  /////////////////////////////////////
+public class DbHelper {
 
-  //  Logcat tag
-  private static final String LOG = "DbHelper";
+    ////  Fields
+    /////////////////////////////////////
+    private static final String LOG = "DbHelper";
+    private static final int DATABASE_VERSION = 1;
+    private static final String DATABASE_NAME = "legoSetsTracker.db";
+    private DbOpenHelper _dbOpenHelper;
+    private SQLiteDatabase _db;
 
-  //  Database Version
-  private static final int DATABASE_VERSION = 1;
+    ////  Contract inner class
+    public final class LegoTablesContract {
 
-  //  Database Name
-  private static final String DATABASE_NAME = "legoSetsTracker";
+        public LegoTablesContract() {
+        }
 
-  //  Table Names
-  private static final String TABLE_LEGO_SET = "LEGO_SET";
-  private static final String TABLE_LEGO_THEME = "LEGO_THEME";
+        public abstract class TableLegoSet implements BaseColumns {
+            public static final String TABLE_NAME = "LEGO_SET";
+            //      public static final String LEGOSET_AUTO_ID = "LEGOSET_AUTO_ID";
+            public static final String ID = "LEGOSET_ID";
+            public static final String NAME = "LEGOSET_NAME";
+            public static final String THEME_ID = "LEGOTHEME_ID";
+            public static final String PIECES = "LEGOSET_PIECES";
+            public static final String ACQUIRED_DATE = "LEGOSET_ACQUIRED_DATE";
+            public static final String QUANTITY = "LEGOSET_QUANTITY";
+        }
 
-  //  Common Column Names
-  private static final String LEGOTHEME_ID = "LEGOTHEME_ID";
+        public abstract class TableLegoTheme implements BaseColumns {
+            public static final String TABLE_NAME = "LEGO_THEME";
+            //      public static final String ID = "LEGOTHEME_ID";
+            public static final String NAME = "LEGOTHEME_NAME";
+        }
 
-  //  LEGO_SET table - column names
-  private static final String LEGOSET_AUTO_ID = "LEGOSET_AUTO_ID";
-  private static final String LEGOSET_ID = "LEGOSET_ID";
-  private static final String LEGOSET_NAME = "LEGOSET_NAME";
-  //  private static final String LEGOTHEME_ID = "LEGOTHEME_ID";
-  private static final String LEGOSET_PIECES = "LEGOSET_PIECES";
-  private static final String LEGOSET_ACQUIRED_DATE = "LEGOSET_ACQUIRED_DATE";
-  private static final String LEGOSET_QUANTITY= "LEGOSET_QUANTITY";
+        ////  Table create statements
+        /////////////////////////////////////
 
-  //  LEGO_THEME table - column names
-  //  private static final String LEGOTHEME_ID = "LEGOTHEME_ID";
-  private static final String LEGOTHEME_NAME = "LEGOTHEME_NAME";
+        //  LEGO_SET table
+        private static final String CREATE_TABLE_LEGO_SET =
+            "CREATE TABLE " + TableLegoSet.TABLE_NAME + "("
+                + TableLegoSet._ID + " INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE,"
+                + TableLegoSet.ID + " TEXT UNIQUE,"
+                + TableLegoSet.NAME + " TEXT,"
+                + TableLegoSet.THEME_ID + " INTEGER,"
+                + TableLegoSet.PIECES + " INTEGER,"
+                + TableLegoSet.ACQUIRED_DATE + " TEXT,"
+                + TableLegoSet.QUANTITY + " INTEGER,"
+                + "FOREIGN KEY(" + TableLegoSet.THEME_ID + ") REFERENCES " + TableLegoTheme.TABLE_NAME + "(" + TableLegoTheme._ID + ")"
+                + ")";
 
-  ////  Table create statements
-  /////////////////////////////////////
+        //  LEGO_THEME table
+        private static final String CREATE_TABLE_LEGO_THEME =
+            "CREATE TABLE " + TableLegoTheme.TABLE_NAME + "("
+                + TableLegoTheme._ID + " INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE,"
+                + TableLegoTheme.NAME + " TEXT"
+                + ")";
 
-  //  LEGO_SET table
-  private static final String CREATE_TABLE_LEGO_SET =
-      "CREATE TABLE " + TABLE_LEGO_SET + "("
-          + LEGOSET_AUTO_ID + " INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE,"
-          + LEGOSET_ID + " TEXT UNIQUE,"
-          + LEGOSET_NAME + " TEXT,"
-          + LEGOTHEME_ID + " INTEGER,"
-          + LEGOSET_PIECES + " INTEGER,"
-          + LEGOSET_ACQUIRED_DATE + " TEXT,"
-          + LEGOSET_QUANTITY + " INTEGER,"
-          + "FOREIGN KEY(" + LEGOTHEME_ID + ") REFERENCES " + TABLE_LEGO_THEME + "(" + LEGOTHEME_ID + ")"
-      + ")";
+        private static final String DELETE_TABLE_LEGO_SET =
+            "DROP TABLE IF EXISTS " + TableLegoSet.TABLE_NAME;
 
-  //  LEGO_THEME table
-  private static final String CREATE_TABLE_LEGO_THEME =
-      "CREATE TABLE " + TABLE_LEGO_THEME + "("
-          + LEGOTHEME_ID + " INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE,"
-          + LEGOTHEME_NAME + " TEXT"
-      + ")";
+        private static final String DELETE_TABLE_LEGO_THEME =
+            "DROP TABLE IF EXISTS " + TableLegoTheme.TABLE_NAME;
 
-  ////  Constructors
-  /////////////////////////////////////
+    }// End Contract inner class
 
-  public DbHelper(Context context){
-    super(context, DATABASE_NAME, null, DATABASE_VERSION);
-  }
+    ////  Database OpenHelper inner class
+    private static class DbOpenHelper extends SQLiteOpenHelper {
+        public DbOpenHelper(Context context) {
+            super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        }
 
-  public void onCreate(SQLiteDatabase db){
-    db.execSQL(CREATE_TABLE_LEGO_THEME);
-    db.execSQL(CREATE_TABLE_LEGO_SET);
-  }
+        public void onCreate(SQLiteDatabase db) {
+            db.execSQL(LegoTablesContract.CREATE_TABLE_LEGO_THEME);
+            db.execSQL(LegoTablesContract.CREATE_TABLE_LEGO_SET);
+        }
 
-  public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion){
-    //  on upgrade drop older tables
-    db.execSQL("DROP TABLE IF EXISTS " + TABLE_LEGO_THEME);
-    db.execSQL("DROP TABLE IF EXISTS " + TABLE_LEGO_SET);
+        public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+            //  on upgrade drop older tables
+            db.execSQL(LegoTablesContract.DELETE_TABLE_LEGO_SET);
+            db.execSQL(LegoTablesContract.DELETE_TABLE_LEGO_THEME);
 
-    //  Create new tables
-    onCreate(db);
-  }
+            //  Create new tables
+            onCreate(db);
+        }
+
+        public void open() throws SQLException {
+
+        }
+    }// End Database OpenHelp inner class
 }
