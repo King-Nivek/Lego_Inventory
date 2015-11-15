@@ -16,13 +16,13 @@ public class LegoSet {
   ////  Fields
   /////////////////////////////////////
   private long autoId;
-  private String legoSetId;
-  private String legoSetName;
-  private int legoThemeId;
-  private String legoThemeName;
-  private int legoSetPieces;
-  private String legoSetAcquiredDate;
-  private int legoSetQuantity;
+  private String id;
+  private String name;
+  private int themeId;
+  private String themeName;
+  private int pieces;
+  private String acquiredDate;
+  private int quantity;
 
   ////  Setters
   /////////////////////////////////////
@@ -30,32 +30,32 @@ public class LegoSet {
     this.autoId = autoId;
   }
 
-  public void setLegoSetId(String legoSetId) {
-    this.legoSetId = legoSetId;
+  public void setId(String id) {
+    this.id = id;
   }
 
-  public void setLegoSetName(String legoSetName) {
-    this.legoSetName = legoSetName;
+  public void setName(String name) {
+    this.name = name;
   }
 
-  public void setLegoThemeId(int legoThemeId) {
-    this.legoThemeId = legoThemeId;
+  public void setThemeId(int themeId) {
+    this.themeId = themeId;
   }
 
-  public void setLegoThemeName(String legoThemeName) {
-    this.legoThemeName = legoThemeName;
+  public void setThemeName(String themeName) {
+    this.themeName = themeName;
   }
 
-  public void setLegoSetPieces(int legoSetPieces) {
-    this.legoSetPieces = legoSetPieces;
+  public void setPieces(int pieces) {
+    this.pieces = pieces;
   }
 
-  public void setLegoSetAcquiredDate(String legoSetAcquiredDate) {
-    this.legoSetAcquiredDate = legoSetAcquiredDate;
+  public void setAcquiredDate(String acquiredDate) {
+    this.acquiredDate = acquiredDate;
   }
 
-  public void setLegoSetQuantity(int legoSetQuantity) {
-    this.legoSetQuantity = legoSetQuantity;
+  public void setQuantity(int quantity) {
+    this.quantity = quantity;
   }
 
   ////  Getters
@@ -64,32 +64,32 @@ public class LegoSet {
     return autoId;
   }
 
-  public String getLegoSetId() {
-    return legoSetId;
+  public String getId() {
+    return id;
   }
 
-  public String getLegoSetName() {
-    return legoSetName;
+  public String getName() {
+    return name;
   }
 
-  public int getLegoThemeId() {
-    return legoThemeId;
+  public int getThemeId() {
+    return themeId;
   }
 
-  public String getLegoThemeName() {
-    return legoThemeName;
+  public String getThemeName() {
+    return themeName;
   }
 
-  public int getLegoSetPieces() {
-    return legoSetPieces;
+  public int getPieces() {
+    return pieces;
   }
 
-  public String getLegoSetAcquiredDate() {
-    return legoSetAcquiredDate;
+  public String getAcquiredDate() {
+    return acquiredDate;
   }
 
-  public int getLegoSetQuantity() {
-    return legoSetQuantity;
+  public int getQuantity() {
+    return quantity;
   }
 
   ////  Constructors
@@ -106,12 +106,12 @@ public class LegoSet {
                  String legoSetAcquiredDate, int legoSetQuantity) {
 
     this.autoId = autoId;
-    this.legoSetId = legoSetId;
-    this.legoSetName = legoSetName;
-    this.legoThemeId = legoThemeId;
-    this.legoThemeName = legoThemeName;
-    this.legoSetPieces = legoSetPieces;
-    this.legoSetAcquiredDate = legoSetAcquiredDate;
-    this.legoSetQuantity = legoSetQuantity;
+    this.id = legoSetId;
+    this.name = legoSetName;
+    this.themeId = legoThemeId;
+    this.themeName = legoThemeName;
+    this.pieces = legoSetPieces;
+    this.acquiredDate = legoSetAcquiredDate;
+    this.quantity = legoSetQuantity;
   }
 }

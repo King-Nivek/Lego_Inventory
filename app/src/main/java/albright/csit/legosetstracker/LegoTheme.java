@@ -14,27 +14,27 @@ package albright.csit.legosetstracker;
 public class LegoTheme {
   ////  Fields
   /////////////////////////////////////
-  private long themeId;
-  private String themeName;
+  private long autoId;
+  private String name;
 
   ////  Setters
   /////////////////////////////////////
-  public void setThemeId(long themeId) {
-    this.themeId = themeId;
+  public void setAutoId(long autoId) {
+    this.autoId = autoId;
   }
 
-  public void setThemeName(String themeName) {
-    this.themeName = themeName;
+  public void setName(String name) {
+    this.name = name;
   }
 
   ////  Getters
   /////////////////////////////////////
-  public long getThemeId() {
-    return themeId;
+  public long getAutoId() {
+    return autoId;
   }
 
-  public String getThemeName() {
-    return themeName;
+  public String getName() {
+    return name;
   }
 
   ////  Constructors
@@ -43,11 +43,11 @@ public class LegoTheme {
   }
 
   public LegoTheme(int themeId) {
-    this.themeId = themeId;
+    this.autoId = themeId;
   }
 
   public LegoTheme(int themeId, String themeName) {
-    this.themeId = themeId;
-    this.themeName = themeName;
+    this.autoId = themeId;
+    this.name = themeName;
   }
 }
