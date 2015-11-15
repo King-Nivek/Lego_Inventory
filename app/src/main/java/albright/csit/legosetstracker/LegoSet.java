@@ -15,7 +15,7 @@ package albright.csit.legosetstracker;
 public class LegoSet {
   ////  Fields
   /////////////////////////////////////
-  private int autoId;
+  private long autoId;
   private String legoSetId;
   private String legoSetName;
   private int legoThemeId;
@@ -60,7 +60,7 @@ public class LegoSet {
 
   ////  Getters
   /////////////////////////////////////
-  public int getAutoId() {
+  public long getAutoId() {
     return autoId;
   }
 

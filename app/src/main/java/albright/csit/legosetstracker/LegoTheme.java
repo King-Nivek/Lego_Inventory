@@ -14,7 +14,7 @@ package albright.csit.legosetstracker;
 public class LegoTheme {
   ////  Fields
   /////////////////////////////////////
-  private int themeId;
+  private long themeId;
   private String themeName;
 
   ////  Setters
@@ -29,7 +29,7 @@ public class LegoTheme {
 
   ////  Getters
   /////////////////////////////////////
-  public int getThemeId() {
+  public long getThemeId() {
     return themeId;
   }
 
