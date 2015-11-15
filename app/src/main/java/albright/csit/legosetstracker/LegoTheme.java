@@ -19,7 +19,7 @@ public class LegoTheme {
 
   ////  Setters
   /////////////////////////////////////
-  public void setThemeId(int themeId) {
+  public void setThemeId(long themeId) {
     this.themeId = themeId;
   }
 

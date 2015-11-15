@@ -26,7 +26,7 @@ public class LegoSet {
 
   ////  Setters
   /////////////////////////////////////
-  public void setAutoId(int autoId) {
+  public void setAutoId(long autoId) {
     this.autoId = autoId;
   }
 
