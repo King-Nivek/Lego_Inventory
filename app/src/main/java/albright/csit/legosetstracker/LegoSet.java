@@ -18,7 +18,7 @@ public class LegoSet {
   private long autoId;
   private String id;
   private String name;
-  private int themeId;
+  private long themeId;
   private String themeName;
   private int pieces;
   private String acquiredDate;
@@ -38,7 +38,7 @@ public class LegoSet {
     this.name = name;
   }
 
-  public void setThemeId(int themeId) {
+  public void setThemeId(long themeId) {
     this.themeId = themeId;
   }
 
@@ -72,7 +72,7 @@ public class LegoSet {
     return name;
   }
 
-  public int getThemeId() {
+  public long getThemeId() {
     return themeId;
   }
 
@@ -102,7 +102,7 @@ public class LegoSet {
   }
 
   public LegoSet(int autoId, String legoSetId, String legoSetName,
-                 int legoThemeId, String legoThemeName, int legoSetPieces,
+                 long legoThemeId, String legoThemeName, int legoSetPieces,
                  String legoSetAcquiredDate, int legoSetQuantity) {
 
     this.autoId = autoId;
