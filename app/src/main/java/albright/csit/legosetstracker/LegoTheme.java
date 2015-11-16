@@ -42,11 +42,11 @@ public class LegoTheme {
   public LegoTheme() {
   }
 
-  public LegoTheme(int themeId) {
+  public LegoTheme(long themeId) {
     this.autoId = themeId;
   }
 
-  public LegoTheme(int themeId, String themeName) {
+  public LegoTheme(long themeId, String themeName) {
     this.autoId = themeId;
     this.name = themeName;
   }
