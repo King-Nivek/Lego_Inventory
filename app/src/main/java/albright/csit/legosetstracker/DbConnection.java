@@ -41,7 +41,7 @@ public class DbConnection {
     }
 
     public void insertLegoSet(LegoSet legoSet){
-        //TODO
+        //TODO: I think this is done.
         ContentValues keyValues = new ContentValues();
 
         keyValues.put(TableLegoSet.ID, legoSet.getId());
@@ -57,7 +57,7 @@ public class DbConnection {
     }
 
     public void insertLegoTheme(LegoTheme legoTheme){
-        //TODO
+        //TODO: I think this is done.
         ContentValues keyValues = new ContentValues();
 
         keyValues.put(TableLegoTheme.NAME, legoTheme.getName());
@@ -78,21 +78,21 @@ public class DbConnection {
     }
 
     public void deleteLegoSet(LegoSet legoSet){
-        //TODO
+        //TODO: I think this is done.
         String whereClause = TableLegoSet._ID + "=?";
         String[] whereArgs = {String.valueOf(legoSet.getAutoId())};
         database.delete(TableLegoSet.TABLE_NAME, whereClause, whereArgs);
     }
 
     public void deleteLegoTheme(LegoTheme legoTheme){
-        //TODO
+        //TODO: I think this is done.
         String whereClause = TableLegoTheme._ID + "=?";
         String[] whereArgs = {String.valueOf(legoTheme.getAutoId())};
         database.delete(TableLegoTheme.TABLE_NAME, whereClause, whereArgs);
     }
 
     public ArrayList<LegoSet> getAllLegoSets(){
-        //TODO
+        //TODO: I think this is done.
 
         String queryStatement =
             "SELECT " + "s." + TableLegoSet._ID + ", "
@@ -133,7 +133,7 @@ public class DbConnection {
     }
 
     public ArrayList<LegoTheme> getAllLegoThemes(){
-        //TODO
+        //TODO: I think this is done.
         String queryStatement =
             "SELECT " + TableLegoTheme._ID + ", "
                       + TableLegoTheme.NAME + " "
@@ -154,7 +154,7 @@ public class DbConnection {
     }
 
     public LegoSet getLegoSet(long id){
-        //TODO
+        //TODO: I think this is done.
         LegoSet legoSet;
         String queryStatement =
             "SELECT " + "s." + TableLegoSet._ID + ", "
@@ -192,7 +192,7 @@ public class DbConnection {
     }
 
     public LegoTheme getLegoTheme(long id){
-        //TODO
+        //TODO: I think this is done.
         LegoTheme legoTheme;
         String queryStatement =
             "SELECT " + TableLegoTheme._ID + ", "
