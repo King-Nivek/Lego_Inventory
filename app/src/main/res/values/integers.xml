@@ -2,4 +2,12 @@
 <resources>
     <integer name="TYPE_SET">10</integer>
     <integer name="TYPE_THEME">20</integer>
+
+    <integer name="SORT_AUTO_ID">100</integer>
+    <integer name="SORT_ID">200</integer>
+    <integer name="SORT_NAME">300</integer>
+    <integer name="SORT_THEME_ID">400</integer>
+    <integer name="SORT_PIECES">500</integer>
+    <integer name="SORT_ACQUIRED_DATE">600</integer>
+    <integer name="SORT_QUANTITY">700</integer>
 </resources>
