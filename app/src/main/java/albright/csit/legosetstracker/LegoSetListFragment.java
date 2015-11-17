@@ -16,6 +16,7 @@ import android.util.Log;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 
 
 public class LegoSetListFragment extends ListFragment{
@@ -31,23 +32,48 @@ public class LegoSetListFragment extends ListFragment{
     }
 
     public void sortAutoId(){
-        Collections.sort(legoSetsList, (s1, s2) -> ((Long)s1.getAutoId()).compareTo(s2.getAutoId()));
+        Collections.sort(legoSetsList, new Comparator<LegoSet>() {
+            @Override
+            public int compare(LegoSet s1, LegoSet s2) {
+                return ((Long) s1.getAutoId()).compareTo(s2.getAutoId());
+            }
+        });
     }
 
     public void sortSetId(){
-        Collections.sort(legoSetsList, (s1, s2) -> s1.getId().compareToIgnoreCase(s2.getId()));
+        Collections.sort(legoSetsList, new Comparator<LegoSet>() {
+            @Override
+            public int compare(LegoSet s1, LegoSet s2) {
+                return s1.getId().compareToIgnoreCase(s2.getId());
+            }
+        });
     }
 
     public void sortSetName(){
-        Collections.sort(legoSetsList, (s1, s2) -> s1.getName().compareToIgnoreCase(s2.getName()));
+        Collections.sort(legoSetsList, new Comparator<LegoSet>() {
+            @Override
+            public int compare(LegoSet s1, LegoSet s2) {
+                return s1.getName().compareToIgnoreCase(s2.getName());
+            }
+        });
     }
 
     public void sortThemeId(){
-        Collections.sort(legoSetsList, (s1, s2) -> ((Long)s1.getThemeId()).compareTo(s2.getThemeId()));
+        Collections.sort(legoSetsList, new Comparator<LegoSet>() {
+            @Override
+            public int compare(LegoSet s1, LegoSet s2) {
+                return ((Long) s1.getThemeId()).compareTo(s2.getThemeId());
+            }
+        });
     }
 
     public void sortPieces(){
-        Collections.sort(legoSetsList, (s1, s2) -> ((Integer)s1.getPieces()).compareTo(s2.getPieces()));
+        Collections.sort(legoSetsList, new Comparator<LegoSet>() {
+            @Override
+            public int compare(LegoSet s1, LegoSet s2) {
+                return ((Integer) s1.getPieces()).compareTo(s2.getPieces());
+            }
+        });
     }
 
     public void sortAcquiredDate(){
@@ -55,7 +81,12 @@ public class LegoSetListFragment extends ListFragment{
     }
 
     public void sortQuantity(){
-        Collections.sort(legoSetsList, (s1, s2) -> ((Integer)s1.getQuantity()).compareTo(s2.getQuantity()));
+        Collections.sort(legoSetsList, new Comparator<LegoSet>() {
+            @Override
+            public int compare(LegoSet s1, LegoSet s2) {
+                return ((Integer) s1.getQuantity()).compareTo(s2.getQuantity());
+            }
+        });
     }
 
     public void sortingType(int type, boolean isDesc){
