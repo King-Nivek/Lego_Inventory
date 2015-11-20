@@ -5,6 +5,9 @@
     <string name="menu_item_sets">Sets</string>
     <string name="menu_item_themes">Themes</string>
     <string name="menu_item_reports">Reports</string>
+    <!--  Additional Menu Items  -->
+    <string name="menu_item_add_set">Add a Set</string>
+    <string name="menu_item_add_theme">Add a Theme</string>
 
     <!--  set_create_update_layout.xml resources  -->
     <string name="update_lbl_set_info">Set Info:</string>
