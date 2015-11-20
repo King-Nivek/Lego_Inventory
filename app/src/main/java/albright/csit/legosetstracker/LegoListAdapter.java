@@ -31,7 +31,7 @@ public class LegoListAdapter extends ArrayAdapter<LegoSet> {
     }
 
     public LegoListAdapter(Context context, ArrayList<LegoSet> values){
-        super(context, R.layout.set_list_headers, values);
+        super(context, R.layout.lego_set_list_row, values);
         this.context = context;
         this.values = values;
     }
@@ -41,7 +41,7 @@ public class LegoListAdapter extends ArrayAdapter<LegoSet> {
         View rowView = convertView;
         if(rowView == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            rowView = inflater.inflate(R.layout.set_list_headers, null);
+            rowView = inflater.inflate(R.layout.lego_set_list_row, null);
             ViewHolder viewHolder = new ViewHolder();
 
             viewHolder.setId = (TextView) rowView.findViewById(R.id.textView_setNumber);
