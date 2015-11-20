@@ -12,6 +12,8 @@ ______________________________________________________________________________*/
 package albright.csit.legosetstracker;
 
 import android.app.ListFragment;
+import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -22,10 +24,20 @@ import java.util.Comparator;
 public class LegoSetListFragment extends ListFragment{
     private DbConnection db;
     private ArrayList<LegoSet> legoSetsList;
-    public void testing(){
+
+    public void onCreate(Bundle savedInstanceState){
+        Toolbar toolbar = new Toolbar(getActivity());
+
+    }
+
+    public void onActivityCreated(Bundle savedInstanceState){
+        super.onActivityCreated(savedInstanceState);
+        db = new DbConnection(getActivity());
         try{
             db.open();
             legoSetsList = db.getAllLegoSets();
+            LegoListAdapter adapter = new LegoListAdapter(getActivity(), legoSetsList);
+            setListAdapter(adapter);
         }catch (SQLException e){
             Log.e("DbConnection:-->", "Error could not open database connection", e);
         }
