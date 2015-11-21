@@ -16,7 +16,6 @@ import android.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,8 +23,6 @@ import android.view.ViewGroup;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 
 
 public class LegoSetListFragment extends Fragment{
@@ -76,7 +73,7 @@ public class LegoSetListFragment extends Fragment{
             recyclerView = (RecyclerView)view.findViewById(R.id.recyclerView);
             layoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
             recyclerView.setLayoutManager(layoutManager);
-            adapter = new LegoListAdapter(legoSetsList);
+            adapter = new LegoSetListAdapter(legoSetsList);
             recyclerView.setAdapter(adapter);
         }catch (SQLException e){
             Log.e("DbConnection:-->", "Error could not open database connection", e);
