@@ -2,23 +2,53 @@ package albright.csit.legosetstracker;
 
 
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
+
 public class MainSetsListActivity extends ActivityMenu {
+
+    private DbConnection db;
+    private ArrayList<LegoSet> legoSetsList;
+    private RecyclerView recyclerView;
+    private RecyclerView.Adapter adapter;
+    private RecyclerView.LayoutManager layoutManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
 
-
+        //  Set my toolbar to be the toolbar.
         Toolbar toolbar = (Toolbar)findViewById(R.id.toolBar);
         toolbar.setTitle(R.string.app_name);
         toolbar.inflateMenu(R.menu.main_menu);
         setSupportActionBar(toolbar);
+
+        //  Hide status bar
+        View decorView = getWindow().getDecorView();
+        decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN);
+
+        db = new DbConnection(this);
+        try{
+            db.open();
+            legoSetsList = db.getAllLegoSets();
+            recyclerView = (RecyclerView)this.findViewById(R.id.recyclerView);
+            layoutManager = new LinearLayoutManager(this);
+            recyclerView.setLayoutManager(layoutManager);
+            adapter = new LegoSetListAdapter(legoSetsList);
+            recyclerView.setAdapter(adapter);
+        }catch (SQLException e){
+            Log.e("DbConnection:-->", "Error could not open database connection", e);
+        }
     }
 
     public boolean onCreateOptionsMenu(Menu menu){
