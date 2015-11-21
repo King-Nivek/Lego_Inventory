@@ -11,38 +11,86 @@ Last Modified:  11.16.2015
 ______________________________________________________________________________*/
 package albright.csit.legosetstracker;
 
-import android.app.ListFragment;
+import android.app.Fragment;
+
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
 
-public class LegoSetListFragment extends ListFragment{
+public class LegoSetListFragment extends Fragment{
+
+    ////  Fields
+    ///////////////////////////////////
+    private static final String STATE_ACTIVATED_POSITION = "legoSetListFragment_activatedPosition";
+    private Callbacks _callbacks = activityCall;
+    private int _activatedPosition = -1;
+
+
     private DbConnection db;
     private ArrayList<LegoSet> legoSetsList;
+    private RecyclerView recyclerView;
+    private RecyclerView.Adapter adapter;
+    private RecyclerView.LayoutManager layoutManager;
+
+    ////  interfaces
+    ///////////////////////////////////
+    public interface Callbacks{
+        public void onItemSelected(long id);
+    }
+
+    //  Dummy Callback used when not attached to an activity.
+    private static Callbacks activityCall = new Callbacks() {
+        @Override
+        public void onItemSelected(long id) {}
+    };
+
+
+    ////  Constructors
+    ///////////////////////////////////
+    public LegoSetListFragment(){
+    }
 
     public void onCreate(Bundle savedInstanceState){
-        Toolbar toolbar = new Toolbar(getActivity());
+        super.onCreate(savedInstanceState);
+
 
     }
 
-    public void onActivityCreated(Bundle savedInstanceState){
-        super.onActivityCreated(savedInstanceState);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
+        View view = inflater.inflate(R.layout.fragment_list, container, false);
         db = new DbConnection(getActivity());
         try{
             db.open();
             legoSetsList = db.getAllLegoSets();
-            LegoListAdapter adapter = new LegoListAdapter(getActivity(), legoSetsList);
-            setListAdapter(adapter);
+            recyclerView = (RecyclerView)view.findViewById(R.id.recyclerView);
+            layoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
+            recyclerView.setLayoutManager(layoutManager);
+            adapter = new LegoListAdapter(legoSetsList);
+            recyclerView.setAdapter(adapter);
         }catch (SQLException e){
             Log.e("DbConnection:-->", "Error could not open database connection", e);
         }
+
+
+        return view;
     }
 
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+//        recyclerView.requestLayout();
+    }
+/*
     public void sortAutoId(){
         Collections.sort(legoSetsList, new Comparator<LegoSet>() {
             @Override
@@ -129,4 +177,5 @@ public class LegoSetListFragment extends ListFragment{
             Collections.reverse(legoSetsList);
         }
     }
+    */
 }
