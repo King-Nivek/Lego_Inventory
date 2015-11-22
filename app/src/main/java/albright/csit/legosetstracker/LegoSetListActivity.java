@@ -1,14 +1,14 @@
 package albright.csit.legosetstracker;
 
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-public class LegoSetListActivity extends ActivityMenu {
+public class LegoSetListActivity extends ActivityMenu implements LegoSetListFragment.Callbacks{
     private boolean _twoPane;
 
     @Override
@@ -22,14 +22,30 @@ public class LegoSetListActivity extends ActivityMenu {
         toolbar.inflateMenu(R.menu.main_menu);
         setSupportActionBar(toolbar);
 
-        RecyclerView recyclerView = (RecyclerView)findViewById(R.id.fragment_legoset_list);
 
-        if(findViewById(R.id.frameLayout_legosetList_detailContainer) != null){
+        if(findViewById(R.id.legoset_detail_container) != null){
             _twoPane = true;
 
 
         }
     }
+
+    public void onItemSelected(long id){
+        if(_twoPane){
+            Bundle arguments = new Bundle();
+            arguments.putLong(LegoSetDetailFragment.ARG_ITEM_ID, id);
+            LegoSetDetailFragment detailFragment = new LegoSetDetailFragment();
+            detailFragment.setArguments(arguments);
+            getFragmentManager().beginTransaction()
+                .replace(R.id.legoset_detail_container, detailFragment)
+                .commit();
+        }else{
+            Intent detailIntent = new Intent(this, LegoSetDetailActivity.class);
+            detailIntent.putExtra(LegoSetDetailFragment.ARG_ITEM_ID, id);
+            startActivity(detailIntent);
+        }
+    }
+
 
     public boolean onCreateOptionsMenu(Menu menu){
         super.onCreateOptionsMenu(menu);

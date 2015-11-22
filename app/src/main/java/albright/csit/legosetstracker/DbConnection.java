@@ -130,6 +130,7 @@ public class DbConnection {
             c.close();
         }
         return legoSetList;
+
     }
 
     public ArrayList<LegoTheme> getAllLegoThemes(){
@@ -161,13 +162,13 @@ public class DbConnection {
                       + "s." + TableLegoSet.ID + ", "
                       + "s." + TableLegoSet.THEME_ID + ", "
                       + "s." + TableLegoSet.NAME + " AS 'Set Name', "
-                      + "t." + TableLegoTheme.NAME + " AS 'Theme' "
-                      + "s." + TableLegoSet.PIECES + " AS '# of Pieces, "
-                      + "s." + TableLegoSet.ACQUIRED_DATE + " AS 'Date Acquired', "
+                      + "t." + TableLegoTheme.NAME + " AS 'Theme', "
+                      + "s." + TableLegoSet.PIECES + " AS '# of Pieces', "
+                     + "s." + TableLegoSet.ACQUIRED_DATE + " AS 'Date Acquired', "
                       + "s." + TableLegoSet.QUANTITY + " AS 'Qty.' "
-              + "FROM " + TableLegoSet.TABLE_NAME + " AS s "
-                + "INNER JOIN " + TableLegoTheme.TABLE_NAME + " AS t "
-                  + "ON s." + TableLegoSet.THEME_ID + " = " + TableLegoTheme._ID + " "
+            + "FROM " + TableLegoSet.TABLE_NAME + " AS s "
+              + "INNER JOIN " + TableLegoTheme.TABLE_NAME + " AS t "
+                + "ON s." + TableLegoSet.THEME_ID + " = t." + TableLegoTheme._ID + " "
               + "WHERE s." + TableLegoSet._ID + " = " + id;
 
         Cursor c = database.rawQuery(queryStatement, null);
@@ -208,7 +209,6 @@ public class DbConnection {
         }else {
             legoTheme = null;
         }
-
         return legoTheme;
     }
 
@@ -227,6 +227,7 @@ public class DbConnection {
         if(orderBy != null){
             query += orderBy;
         }
+
         return query;
     }
 
@@ -246,7 +247,7 @@ public class DbConnection {
         String on = "ON s." + TableLegoSet.THEME_ID + " = " + TableLegoTheme._ID + " ";
         String where = "WHERE s." + TableLegoSet.THEME_ID + " = " + themeId;
 
-         return select + columns + from + innerJoin + on + where;
+        return select + columns + from + innerJoin + on + where;
     }
 
     public String buildColumns(int type){

@@ -11,21 +11,22 @@ Last Modified:  11.16.2015
 ______________________________________________________________________________*/
 package albright.csit.legosetstracker;
 
+import android.app.Activity;
 import android.app.Fragment;
-
+import android.content.Context;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-
-public class LegoSetListFragment extends Fragment{
+public class LegoSetListFragment extends Fragment implements LegoSetListAdapter.ViewHolder.ClickListener{
 
     ////  Fields
     ///////////////////////////////////
@@ -39,17 +40,20 @@ public class LegoSetListFragment extends Fragment{
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
     private RecyclerView.LayoutManager layoutManager;
+    private DefaultItemAnimator itemAnimator;
+
+
 
     ////  interfaces
     ///////////////////////////////////
     public interface Callbacks{
-        public void onItemSelected(long id);
+        public void onItemSelected(long item);
     }
 
     //  Dummy Callback used when not attached to an activity.
     private static Callbacks activityCall = new Callbacks() {
         @Override
-        public void onItemSelected(long id) {}
+        public void onItemSelected(long item) {}
     };
 
 
@@ -60,8 +64,6 @@ public class LegoSetListFragment extends Fragment{
 
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-
-
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
@@ -73,19 +75,43 @@ public class LegoSetListFragment extends Fragment{
             recyclerView = (RecyclerView)view.findViewById(R.id.recyclerView);
             layoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
             recyclerView.setLayoutManager(layoutManager);
-            adapter = new LegoSetListAdapter(legoSetsList);
+            itemAnimator = new DefaultItemAnimator();
+            recyclerView.setItemAnimator(itemAnimator);
+            adapter = new LegoSetListAdapter(legoSetsList, this);
             recyclerView.setAdapter(adapter);
+            db.close();
         }catch (SQLException e){
             Log.e("DbConnection:-->", "Error could not open database connection", e);
         }
-
-
         return view;
+    }
+
+    public void onItemClicked(long id){
+        Snackbar sb = Snackbar.make(getActivity().findViewById(R.id.coordinatorLayout_baseLayout), "Item: " + id, Snackbar.LENGTH_SHORT);
+        sb.show();
+        _callbacks.onItemSelected(id);
+    }
+
+    public boolean onItemLongClicked(long id){
+        return true;
+    }
+
+    public void onAttach(Context context){
+        super.onAttach(context);
+        try{
+            _callbacks = (Callbacks)context;
+        }catch(ClassCastException e){
+            Log.d("LegoSetListFragment:-->", context.toString());
+        }
+    }
+
+    public void onDetach(){
+        super.onDetach();
+        _callbacks = activityCall;
     }
 
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-//        recyclerView.requestLayout();
     }
 /*
     public void sortAutoId(){
