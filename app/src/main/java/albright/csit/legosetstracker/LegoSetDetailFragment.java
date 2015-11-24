@@ -13,17 +13,12 @@ package albright.csit.legosetstracker;
 
 import android.app.Fragment;
 import android.os.Bundle;
-import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
-import android.widget.TextView;
-
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -36,8 +31,6 @@ public class LegoSetDetailFragment extends Fragment {
     private LegoSet legoSet;
     private ArrayList<LegoTheme> legoThemes;
     private DbConnection db;
-
-
 
     ////  Constructors
     ///////////////////////////////////
@@ -57,7 +50,6 @@ public class LegoSetDetailFragment extends Fragment {
                 Log.d("Tag--->", "Caught");
             }
         }
-
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

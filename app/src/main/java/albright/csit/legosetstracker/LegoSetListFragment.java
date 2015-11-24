@@ -11,11 +11,9 @@ Last Modified:  11.16.2015
 ______________________________________________________________________________*/
 package albright.csit.legosetstracker;
 
-import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -87,8 +85,6 @@ public class LegoSetListFragment extends Fragment implements LegoSetListAdapter.
     }
 
     public void onItemClicked(long id){
-        Snackbar sb = Snackbar.make(getActivity().findViewById(R.id.coordinatorLayout_baseLayout), "Item: " + id, Snackbar.LENGTH_SHORT);
-        sb.show();
         _callbacks.onItemSelected(id);
     }
 

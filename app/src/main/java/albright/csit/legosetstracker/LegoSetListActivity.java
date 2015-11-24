@@ -51,7 +51,7 @@ public class LegoSetListActivity extends ActivityMenu implements LegoSetListFrag
         super.onCreateOptionsMenu(menu);
         menu.add(Menu.NONE, R.string.menu_item_add_set, menu.size(), R.string.menu_item_add_set);
         MenuItem menuItem = menu.getItem(menu.size()-1);
-        menuItem.setIcon(android.R.drawable.ic_menu_add);
+        menuItem.setIcon(R.drawable.ic_add_white_24dp);
         menuItem.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_IF_ROOM);
         menuItem.setTitleCondensed("");
         return true;

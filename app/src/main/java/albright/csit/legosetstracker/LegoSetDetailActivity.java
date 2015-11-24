@@ -18,7 +18,6 @@ public class LegoSetDetailActivity extends ActivityMenu {
         toolbar.inflateMenu(R.menu.main_menu);
         setSupportActionBar(toolbar);
 
-
         if(savedInstanceState == null){
             Bundle arguments = new Bundle();
             arguments.putLong(LegoSetDetailFragment.ARG_ITEM_ID,
@@ -29,7 +28,5 @@ public class LegoSetDetailActivity extends ActivityMenu {
                 .add(R.id.legoset_detail_container, detailFragment)
                 .commit();
         }
-
     }
-
 }
