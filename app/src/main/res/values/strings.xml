@@ -11,7 +11,7 @@
 
     <!--  set_create_update_layout.xml resources  -->
     <string name="update_lbl_set_info">Set Info:</string>
-    <string name="update_hint_setNumber">Set Number:</string>
+    <string name="update_hint_setNumber">Set ID:</string>
     <string name="update_hint_setName">Set Name:</string>
     <string name="update_spinnerPromt_theme">Themes:</string>
     <string name="update_hint_setNumberOfPieces">Number of Pieces:</string>

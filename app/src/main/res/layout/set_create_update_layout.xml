@@ -30,9 +30,9 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/editText_update_setNumber"
+            android:id="@+id/editText_update_setId"
             android:hint="@string/update_hint_setNumber"
-            android:inputType="number"/>
+            android:inputType="text"/>
 
     </android.support.design.widget.TextInputLayout>
 
