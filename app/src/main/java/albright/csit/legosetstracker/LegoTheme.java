@@ -12,42 +12,47 @@ ______________________________________________________________________________*/
 package albright.csit.legosetstracker;
 
 public class LegoTheme {
-  ////  Fields
-  /////////////////////////////////////
-  private long autoId;
-  private String name;
+    ////  Fields
+    /////////////////////////////////////
+    private long autoId;
+    private String name;
 
-  ////  Setters
-  /////////////////////////////////////
-  public void setAutoId(long autoId) {
-    this.autoId = autoId;
-  }
+    ////  Setters
+    /////////////////////////////////////
+    public void setAutoId(long autoId) {
+        this.autoId = autoId;
+    }
 
-  public void setName(String name) {
-    this.name = name;
-  }
+    public void setName(String name) {
+        this.name = name;
+    }
 
-  ////  Getters
-  /////////////////////////////////////
-  public long getAutoId() {
-    return autoId;
-  }
+    ////  Getters
+    /////////////////////////////////////
+    public long getAutoId() {
+        return autoId;
+    }
 
-  public String getName() {
-    return name;
-  }
+    public String getName() {
+        return name;
+    }
 
-  ////  Constructors
-  /////////////////////////////////////
-  public LegoTheme() {
-  }
+    ////  Constructors
+    /////////////////////////////////////
+    public LegoTheme() {
+    }
 
-  public LegoTheme(long themeId) {
-    this.autoId = themeId;
-  }
+    public LegoTheme(long themeId) {
+        this.autoId = themeId;
+    }
 
-  public LegoTheme(long themeId, String themeName) {
-    this.autoId = themeId;
-    this.name = themeName;
-  }
+    public LegoTheme(long themeId, String themeName) {
+        this.autoId = themeId;
+        this.name = themeName;
+    }
+
+    @Override
+    public String toString() {
+        return this.getName();
+    }
 }

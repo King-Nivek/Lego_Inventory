@@ -12,6 +12,7 @@ ______________________________________________________________________________*/
 
 package albright.csit.legosetstracker;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -31,6 +32,19 @@ public class DbHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(LegoTrackerDbContract.CREATE_TABLE_LEGO_THEME);
         db.execSQL(LegoTrackerDbContract.CREATE_TABLE_LEGO_SET);
+        /*ContentValues cv = new ContentValues();
+        cv.put(LegoTrackerDbContract.TableLegoTheme.NAME, "Star Wars");
+        db.insert(LegoTrackerDbContract.TableLegoTheme.TABLE_NAME, null, cv);
+        cv.clear();
+        cv.put(LegoTrackerDbContract.TableLegoTheme.NAME, "City");
+        db.insert(LegoTrackerDbContract.TableLegoTheme.TABLE_NAME, null, cv);
+        cv.clear();
+        cv.put(LegoTrackerDbContract.TableLegoTheme.NAME, "Space Police");
+        db.insert(LegoTrackerDbContract.TableLegoTheme.TABLE_NAME, null, cv);
+        cv.clear();
+        cv.put(LegoTrackerDbContract.TableLegoTheme.NAME, "Atlantis");
+        db.insert(LegoTrackerDbContract.TableLegoTheme.TABLE_NAME, null, cv);
+        cv.clear();*/
     }
 
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {

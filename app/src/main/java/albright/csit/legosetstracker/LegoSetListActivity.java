@@ -6,10 +6,15 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
-public class LegoSetListActivity extends ActivityMenu implements LegoSetListFragment.Callbacks{
+
+public class LegoSetListActivity extends ActivityMenu
+        implements LegoSetListFragment.Callbacks,
+                    LegoSetDetailFragment.OnSaveLegoSetListener{
+
+    private LegoSetListFragment legoSetListFragment;
     private boolean _twoPane;
+    private LegoSet legoSet;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +27,7 @@ public class LegoSetListActivity extends ActivityMenu implements LegoSetListFrag
         toolbar.inflateMenu(R.menu.main_menu);
         setSupportActionBar(toolbar);
 
+        legoSetListFragment = (LegoSetListFragment)getFragmentManager().findFragmentById(R.id.fragment_legoset_list);
 
         if(findViewById(R.id.legoset_detail_container) != null){
             _twoPane = true;
@@ -37,7 +43,8 @@ public class LegoSetListActivity extends ActivityMenu implements LegoSetListFrag
             LegoSetDetailFragment detailFragment = new LegoSetDetailFragment();
             detailFragment.setArguments(arguments);
             getFragmentManager().beginTransaction()
-                .replace(R.id.legoset_detail_container, detailFragment)
+                .replace(R.id.legoset_detail_container, detailFragment, "detailFragment")
+                .addToBackStack(null)
                 .commit();
         }else{
             Intent detailIntent = new Intent(this, LegoSetDetailActivity.class);
@@ -45,6 +52,12 @@ public class LegoSetListActivity extends ActivityMenu implements LegoSetListFrag
             startActivity(detailIntent);
         }
     }
+
+    public void onSaveLegoSet(LegoSet legoSet){
+        this.legoSet = legoSet;
+        legoSetListFragment.savedLegoSet(legoSet);
+    }
+
 
 
     public boolean onCreateOptionsMenu(Menu menu){
@@ -61,8 +74,7 @@ public class LegoSetListActivity extends ActivityMenu implements LegoSetListFrag
         boolean isSelected = false;
         switch(item.getItemId()){
             case R.string.menu_item_add_set:
-                Toast toast = Toast.makeText(this, "Add new Set", Toast.LENGTH_LONG);
-                toast.show();
+                onItemSelected(-1);
 
                 break;
             default:

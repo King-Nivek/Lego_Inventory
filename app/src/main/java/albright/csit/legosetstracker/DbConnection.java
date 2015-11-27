@@ -15,6 +15,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -70,16 +71,30 @@ public class DbConnection {
     public void updateLegoSet(LegoSet legoSet){
         //TODO
         ContentValues keyValues = new ContentValues();
+        keyValues.put(TableLegoSet.ID, legoSet.getId());
+        keyValues.put(TableLegoSet.NAME, legoSet.getName());
+        keyValues.put(TableLegoSet.THEME_ID, legoSet.getThemeId());
+        keyValues.put(TableLegoSet.PIECES, legoSet.getPieces());
+        keyValues.put(TableLegoSet.ACQUIRED_DATE, legoSet.getAcquiredDate());
         keyValues.put(TableLegoSet.QUANTITY, legoSet.getQuantity());
+        String whereClause = TableLegoSet._ID + " = ?";
+        String[] whereArgs = {String.valueOf(legoSet.getAutoId())};
+        database.update(TableLegoSet.TABLE_NAME, keyValues, whereClause, whereArgs);
     }
 
-    public void updateLegoTheme(){
+    public void updateLegoTheme(LegoTheme legoTheme){
         //TODO
+        ContentValues keyValues = new ContentValues();
+
+        keyValues.put(TableLegoTheme.NAME, legoTheme.getName());
+        String whereClause = TableLegoTheme._ID + " = ?";
+        String[] whereArgs = {String.valueOf(legoTheme.getAutoId())};
+        database.update(TableLegoTheme.TABLE_NAME, keyValues, whereClause, whereArgs);
     }
 
     public void deleteLegoSet(LegoSet legoSet){
         //TODO: I think this is done.
-        String whereClause = TableLegoSet._ID + "=?";
+        String whereClause = TableLegoSet._ID + " = ?";
         String[] whereArgs = {String.valueOf(legoSet.getAutoId())};
         database.delete(TableLegoSet.TABLE_NAME, whereClause, whereArgs);
     }

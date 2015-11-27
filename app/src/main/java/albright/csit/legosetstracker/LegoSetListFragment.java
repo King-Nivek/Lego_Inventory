@@ -11,6 +11,8 @@ Last Modified:  11.16.2015
 ______________________________________________________________________________*/
 package albright.csit.legosetstracker;
 
+import android.annotation.TargetApi;
+import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
@@ -23,6 +25,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class LegoSetListFragment extends Fragment implements LegoSetListAdapter.ViewHolder.ClickListener{
 
@@ -92,12 +96,23 @@ public class LegoSetListFragment extends Fragment implements LegoSetListAdapter.
         return true;
     }
 
-    public void onAttach(Context context){
+    @TargetApi(23)
+    @Override
+    public void onAttach(Context context) {
         super.onAttach(context);
-        try{
-            _callbacks = (Callbacks)context;
-        }catch(ClassCastException e){
-            Log.d("LegoSetListFragment:-->", context.toString());
+        try {
+            _callbacks = (Callbacks) context;
+        } catch (ClassCastException e) {
+            Log.d("DatePickerFragment---->", context.toString() + "must Implement");
+        }
+    }
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        try {
+            _callbacks = (Callbacks) activity;
+        } catch (ClassCastException e) {
+            Log.d("DatePickerFragment---->", activity.toString() + "must Implement");
         }
     }
 
@@ -109,6 +124,22 @@ public class LegoSetListFragment extends Fragment implements LegoSetListAdapter.
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
     }
+
+    public void savedLegoSet(LegoSet legoSet){
+        if(legoSet.getAutoId() >= legoSetsList.size()) {
+            int tmpSize = legoSetsList.size();
+            legoSetsList.add(legoSet);
+            adapter.notifyItemInserted(tmpSize);
+        }else {
+            LegoSetListAdapter.ViewHolder vh;
+            vh = (LegoSetListAdapter.ViewHolder)recyclerView.findViewHolderForItemId(legoSet.getAutoId());
+            int position = vh.getAdapterPosition();
+
+            legoSetsList.set(position, legoSet);
+            adapter.notifyItemChanged(position);
+        }
+    }
+
 /*
     public void sortAutoId(){
         Collections.sort(legoSetsList, new Comparator<LegoSet>() {

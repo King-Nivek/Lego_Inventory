@@ -17,7 +17,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -38,12 +37,11 @@ public class LegoSetListAdapter extends RecyclerView.Adapter<LegoSetListAdapter.
 
         public ViewHolder(View v, ClickListener listener){
             super(v);
-            long id;
             setId = (TextView)v.findViewById(R.id.textView_setNumber);
             setName = (TextView)v.findViewById(R.id.textView_setName);
 
             this.listener = listener;
-
+            v.setClickable(true);
             v.setOnClickListener(this);
             v.setOnLongClickListener(this);
         }

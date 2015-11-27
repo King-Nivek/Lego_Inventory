@@ -25,7 +25,7 @@ public class LegoSetDetailActivity extends ActivityMenu {
             LegoSetDetailFragment detailFragment = new LegoSetDetailFragment();
             detailFragment.setArguments(arguments);
             getFragmentManager().beginTransaction()
-                .add(R.id.legoset_detail_container, detailFragment)
+                .add(R.id.legoset_detail_container, detailFragment, "detailFragment")
                 .commit();
         }
     }

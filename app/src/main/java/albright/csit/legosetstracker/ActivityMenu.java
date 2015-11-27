@@ -12,6 +12,7 @@ ______________________________________________________________________________*/
 
 package albright.csit.legosetstracker;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -32,8 +33,8 @@ public class ActivityMenu extends AppCompatActivity {
 
         switch (item.getItemId()) {
             case R.id.menuItem_sets:
-                toast = Toast.makeText(this, getText(R.string.menu_item_sets), Toast.LENGTH_LONG);
-                toast.show();
+                Intent intent = new Intent(this, LegoSetListActivity.class);
+                startActivity(intent);
                 break;
 
             case R.id.menuItem_themes:

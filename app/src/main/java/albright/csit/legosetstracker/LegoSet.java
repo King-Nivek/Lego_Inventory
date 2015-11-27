@@ -12,6 +12,8 @@ ______________________________________________________________________________*/
 
 package albright.csit.legosetstracker;
 
+import android.os.Bundle;
+
 public class LegoSet {
     ////  Fields
     /////////////////////////////////////
@@ -113,5 +115,63 @@ public class LegoSet {
         this.pieces = legoSetPieces;
         this.acquiredDate = legoSetAcquiredDate;
         this.quantity = legoSetQuantity;
+    }
+
+    public boolean equalsAll(LegoSet thatObj){
+        boolean returnValue = false;
+        if(this.autoId == thatObj.getAutoId() && equals(thatObj)){
+            returnValue = true;
+        }
+        return returnValue;
+    }
+
+    public boolean equals(LegoSet thatObj){
+        boolean isEqual = false;
+        final int FIELD_NUMBER = 7;
+        int areTrue = 0;
+        if(this.id.compareTo(thatObj.getId()) == 0){
+            areTrue++;
+        }
+        if(this.name.compareTo(thatObj.getName()) == 0){
+            areTrue++;
+        }
+        if(this.themeId == thatObj.getThemeId()){
+            areTrue++;
+        }
+        if(this.acquiredDate.compareTo(thatObj.getAcquiredDate()) == 0){
+            areTrue++;
+        }
+        if(this.pieces == thatObj.getPieces()){
+            areTrue++;
+        }
+        if(this.quantity == thatObj.getQuantity()){
+            areTrue++;
+        }
+        if(areTrue == FIELD_NUMBER){
+            isEqual = true;
+        }
+        return isEqual;
+    }
+
+    public boolean equalsAutoId(long thatSetAutoId){
+        return this.autoId == thatSetAutoId;
+    }
+    public boolean equalsId(String thatSetId){
+        return this.id.compareTo(thatSetId) == 0;
+    }
+    public boolean equalsName(String thatSetName){
+        return this.name.compareTo(thatSetName) == 0;
+    }
+    public boolean equalsThemeId(long thatThemeId){
+        return this.themeId == thatThemeId;
+    }
+    public boolean equalsAcquiredDate(String thatAcquiredDate){
+        return this.acquiredDate.compareTo(thatAcquiredDate) == 0;
+    }
+    public boolean equalsPieces(int thatSetPieces){
+        return this.pieces == thatSetPieces;
+    }
+    public boolean equalsQuantity(int thatSetQuantity){
+        return this.quantity == thatSetQuantity;
     }
 }
