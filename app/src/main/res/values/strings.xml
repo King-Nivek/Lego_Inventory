@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">Lego Sets Tracker</string>
+    <string name="commonText_save">Save</string>
+    <string name="commonText_cancel">Cancel</string>
 
     <!--  Main Menu Items  -->
     <string name="menu_item_sets">Sets</string>
@@ -13,21 +15,33 @@
     <string name="update_lbl_set_info">Set Info:</string>
     <string name="update_hint_setNumber">Set ID:</string>
     <string name="update_hint_setName">Set Name:</string>
-    <string name="update_spinnerPromt_theme">Themes:</string>
+
+    <string name="update_textView_lbl_theme">Theme:</string>
+    <string name="update_button_theme_lbl_initialText">Choose a Theme</string>
+    <string name="update_dialogTheme_title">Themes:</string>
+    <string name="update_dialogTheme_neutralText">Add Theme</string>
+    <string name="update_dialogAddTheme_editTextHint">Theme Name:</string>
+    <string name="update_dialogAddTheme_positiveText">@string/commonText_save</string>
+    <string name="update_dialogAddTheme_negativeText">@string/commonText_cancel</string>
+
     <string name="update_hint_setNumberOfPieces">Number of Pieces:</string>
     <string name="update_lbl_other_info">Other Info:</string>
-    <string name="update_lbl_date_acquired">Date of First Acquisition:</string>
-    <string name="update_button_lbl_initialText">Choose a date</string>
+    <string name="update_textView_lbl_date_acquired">Date of First Acquisition:</string>
+    <string name="update_button_date_lbl_initialText">Choose a date</string>
     <string name="update_hint_quantityOwned">Quantity Owned:</string>
-    <string name="update_button_cancel">Cancel</string>
-    <string name="update_button_save">Save</string>
+    <string name="update_button_save">@string/commonText_save</string>
+    <string name="update_button_cancel">@string/commonText_cancel</string>
 
-    <!--  For Testing Purposes  -->
-    <string-array name="SpinnerTestData">
-        <item>Item1</item>
-        <item>Item2</item>
-        <item>Item3</item>
-        <item>Item4</item>
-        <item>Item5</item>
-    </string-array>
+
+    <!--  Enum Helpers  -->
+    <string name="type_set">TYPE_SET</string>
+    <string name="type_theme">TYPE_THEME</string>
+
+    <string name="sort_auto_id">sort_auto_id</string>
+    <string name="sort_id">SORT_ID</string>
+    <string name="sort_name">SORT_NAME</string>
+    <string name="sort_theme_id">SORT_THEME_ID</string>
+    <string name="sort_pieces">SORT_PIECES</string>
+    <string name="sort_acquired_date">SORT_ACQUIRED_DATE</string>
+    <string name="sort_quantity">SORT_QUANTITY</string>
 </resources>

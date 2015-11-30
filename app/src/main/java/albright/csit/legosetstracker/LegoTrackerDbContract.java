@@ -28,6 +28,9 @@ public final class LegoTrackerDbContract{
         public static final String PIECES = "LEGOSET_PIECES";
         public static final String ACQUIRED_DATE = "LEGOSET_ACQUIRED_DATE";
         public static final String QUANTITY = "LEGOSET_QUANTITY";
+
+        //  Not used in table but useful for other operations
+        public static final String THEME_NAME = "LEGOTHEME_NAME";
     }
 
     public static abstract class TableLegoTheme implements BaseColumns {

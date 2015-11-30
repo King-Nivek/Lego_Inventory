@@ -13,8 +13,10 @@ package albright.csit.legosetstracker;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -23,6 +25,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -81,7 +85,7 @@ public class LegoSetListFragment extends Fragment implements LegoSetListAdapter.
             recyclerView.setItemAnimator(itemAnimator);
             adapter = new LegoSetListAdapter(legoSetsList, this);
             recyclerView.setAdapter(adapter);
-            db.close();
+//            db.close();
         }catch (SQLException e){
             Log.e("DbConnection:-->", "Error could not open database connection", e);
         }
@@ -93,6 +97,22 @@ public class LegoSetListFragment extends Fragment implements LegoSetListAdapter.
     }
 
     public boolean onItemLongClicked(long id){
+        final int position = recyclerView.findViewHolderForItemId(id).getAdapterPosition();
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setMessage("Delete Lego set \"" + legoSetsList.get(position).getName() + "\"?");
+        builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                db.deleteLegoSet(legoSetsList.get(position));
+                legoSetsList.remove(position);
+                adapter.notifyItemRemoved(position);
+            }
+        }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        }).show();
         return true;
     }
 
@@ -126,17 +146,18 @@ public class LegoSetListFragment extends Fragment implements LegoSetListAdapter.
     }
 
     public void savedLegoSet(LegoSet legoSet){
-        if(legoSet.getAutoId() >= legoSetsList.size()) {
+        RecyclerView.ViewHolder vh = recyclerView.findViewHolderForItemId(legoSet.getAutoId());
+        int position;
+        if(vh == null) {
             int tmpSize = legoSetsList.size();
             legoSetsList.add(legoSet);
             adapter.notifyItemInserted(tmpSize);
+            Toast.makeText(getActivity(), "Set Saved", Toast.LENGTH_LONG).show();
         }else {
-            LegoSetListAdapter.ViewHolder vh;
-            vh = (LegoSetListAdapter.ViewHolder)recyclerView.findViewHolderForItemId(legoSet.getAutoId());
-            int position = vh.getAdapterPosition();
-
+            position = vh.getAdapterPosition();
             legoSetsList.set(position, legoSet);
             adapter.notifyItemChanged(position);
+            Toast.makeText(getActivity(), "Set Updated", Toast.LENGTH_LONG).show();
         }
     }
 

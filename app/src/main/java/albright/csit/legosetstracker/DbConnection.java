@@ -179,7 +179,7 @@ public class DbConnection {
                       + "s." + TableLegoSet.NAME + " AS 'Set Name', "
                       + "t." + TableLegoTheme.NAME + " AS 'Theme', "
                       + "s." + TableLegoSet.PIECES + " AS '# of Pieces', "
-                     + "s." + TableLegoSet.ACQUIRED_DATE + " AS 'Date Acquired', "
+                      + "s." + TableLegoSet.ACQUIRED_DATE + " AS 'Date Acquired', "
                       + "s." + TableLegoSet.QUANTITY + " AS 'Qty.' "
             + "FROM " + TableLegoSet.TABLE_NAME + " AS s "
               + "INNER JOIN " + TableLegoTheme.TABLE_NAME + " AS t "
@@ -227,6 +227,50 @@ public class DbConnection {
         return legoTheme;
     }
 
+    public boolean hasLegoSetId(String id){
+        String query = "SELECT "
+                        + TableLegoSet._ID + ", "
+                        + TableLegoSet.ID + " "
+                     + "FROM " + TableLegoSet.TABLE_NAME + " "
+                     + "WHERE " + TableLegoSet.ID + " = '" + id + "'";
+        Cursor c = database.rawQuery(query, null);
+        boolean hasId = (c.getCount() > 0);
+        if(hasId){c.close();}
+        return hasId;
+    }
+
+    public boolean hasLegoSet(long _id, String id){
+        String query = "SELECT "
+            + TableLegoSet._ID + ", "
+            + TableLegoSet.ID + " "
+            + "FROM " + TableLegoSet.TABLE_NAME + " "
+            + "WHERE " + TableLegoSet.ID + " = '" + id + "' AND " + TableLegoSet._ID + " = " + _id;
+        Cursor c = database.rawQuery(query, null);
+        boolean hasId = (c.getCount() == 1);
+        if(hasId){c.close();}
+        return hasId;
+    }
+
+
+    public boolean hasLegoThemeName(String name){
+        String query = "SELECT "
+            + TableLegoTheme._ID + ", "
+            + TableLegoTheme.NAME + " "
+            + "FROM " + TableLegoTheme.TABLE_NAME + " "
+            + "WHERE " + TableLegoTheme.NAME + " = '" + name + "'";
+        Cursor c = database.rawQuery(query, null);
+        boolean hasId = (c.getCount() > 0);
+        if(hasId){c.close();}
+        return hasId;
+    }
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+
+    public void buildQuery(String table, ContentValues values, String where, String yo){
+
+    }
+
+
     public String buildQueryString(int type, long id, String sortOn,
                                    boolean isFilter, boolean isDesc){
         String select = "SELECT ",
@@ -268,7 +312,7 @@ public class DbConnection {
     public String buildColumns(int type){
         String columns;
         switch (type){
-            case R.integer.TYPE_SET:
+            case R.string.type_set:
                 columns = "s." + TableLegoSet._ID + ", "
                         + "s." + TableLegoSet.ID + ", "
                         + "s." + TableLegoSet.THEME_ID + ", "
@@ -278,7 +322,7 @@ public class DbConnection {
                         + "s." + TableLegoSet.ACQUIRED_DATE + " AS 'Date Acquired', "
                         + "s." + TableLegoSet.QUANTITY + " AS 'Qty.' ";
                 break;
-            case R.integer.TYPE_THEME:
+            case R.string.type_theme:
                 columns = TableLegoTheme._ID + ", "
                         + TableLegoTheme.NAME + " ";
                 break;
@@ -291,12 +335,12 @@ public class DbConnection {
     public String buildFrom(int type){
         String from;
         switch (type){
-            case R.integer.TYPE_SET:
+            case R.string.type_set:
                 from = "FROM " + TableLegoSet.TABLE_NAME + " AS s "
                         + "INNER JOIN " + TableLegoTheme.TABLE_NAME + " AS t "
                         + "ON s." + TableLegoSet.THEME_ID + " = " + TableLegoTheme._ID + " ";
                 break;
-            case R.integer.TYPE_THEME:
+            case R.string.type_theme:
                 from = "FROM " + TableLegoTheme.TABLE_NAME + " ";
                 break;
             default:
@@ -308,14 +352,14 @@ public class DbConnection {
     public String buildWhere(int type, long id, boolean isFilter){
         String where;
         switch (type){
-            case R.integer.TYPE_SET:
+            case R.string.type_set:
                 if(isFilter) {
                     where = "WHERE s." + TableLegoSet.THEME_ID + " = " + id;
                 }else {
                     where = "WHERE s." + TableLegoSet._ID + " = " + id;
                 }
                 break;
-            case R.integer.TYPE_THEME:
+            case R.string.type_theme:
                 where = "WHERE " + TableLegoTheme._ID + " = " + id;
                 break;
             default:

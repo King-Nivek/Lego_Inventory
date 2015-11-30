@@ -12,6 +12,7 @@ public class LegoSetListActivity extends ActivityMenu
         implements LegoSetListFragment.Callbacks,
                     LegoSetDetailFragment.OnSaveLegoSetListener{
 
+    private static final int LEGO_SET_DETAIL_RESULTS = 1;
     private LegoSetListFragment legoSetListFragment;
     private boolean _twoPane;
     private LegoSet legoSet;
@@ -49,7 +50,7 @@ public class LegoSetListActivity extends ActivityMenu
         }else{
             Intent detailIntent = new Intent(this, LegoSetDetailActivity.class);
             detailIntent.putExtra(LegoSetDetailFragment.ARG_ITEM_ID, id);
-            startActivity(detailIntent);
+            startActivityForResult(detailIntent, LEGO_SET_DETAIL_RESULTS);
         }
     }
 
@@ -74,13 +75,25 @@ public class LegoSetListActivity extends ActivityMenu
         boolean isSelected = false;
         switch(item.getItemId()){
             case R.string.menu_item_add_set:
-                onItemSelected(-1);
+                onItemSelected(LegoSetDetailFragment.INSERT_NEW_SET_ID);
 
                 break;
             default:
                 isSelected = super.onOptionsItemSelected(item);
         }
         return isSelected;
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data){
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == ActivityMenu.RESULT_OK){
+            switch (requestCode){
+                case LEGO_SET_DETAIL_RESULTS:
+                    Bundle legoSetBundle = data.getBundleExtra(LegoSetDetailActivity.RESULTS);
+                    this.legoSet = LegoSet.readBundle(legoSetBundle);
+                    legoSetListFragment.savedLegoSet(legoSet);
+            }
+        }
     }
 
 }
