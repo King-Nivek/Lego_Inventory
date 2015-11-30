@@ -21,6 +21,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
+import android.text.InputFilter;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -48,6 +49,9 @@ public class AddThemeDialog extends DialogFragment{
         v = inflater.inflate(R.layout.add_theme_layout, null);
         wrapperThemeName = (TextInputLayout) v.findViewById(R.id.wrapper_dialog_themeName);
         wrapperThemeName.setCounterMaxLength(maxLength);
+        ((EditText)wrapperThemeName.getEditText()).setFilters(new InputFilter[]{
+            new RegexInputFilter("[\\p{Alnum},.&'\" -]+")
+        });
 
         builder_addTheme.setView(v)
             .setPositiveButton(R.string.update_dialogAddTheme_positiveText, new DialogInterface.OnClickListener() {
