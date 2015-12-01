@@ -5,7 +5,7 @@ Creation Date:  10.28.2015
   Modified By:  Kevin M. Albright
 Last Modified:  11.02.2015
 
-   Assignment:  PizzaOrderAppFragments
+   Assignment:  Lego Sets Tracker
     File Name:  RegexInputFilter.java
       Purpose:  To create regex filters for input fields.
                   Sub-static-classes to create filters for repeated use filters.

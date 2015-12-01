@@ -3,11 +3,14 @@
 Creation Date:  11.29.2015
 
   Modified By:  Kevin M. Albright
-Last Modified:  11.29.2015
+Last Modified:  11.30.2015
 
    Assignment:  Lego Sets Tracker
-    File Name:  ThemePickerDialog
-      Purpose:  
+    File Name:  ThemePickerDialog.java
+      Purpose:  Creates a dialog window that will allow the user to enter in
+                  a new theme name and save it to the database.  Button and
+                  clicks are implemented through other classes implementing
+                  the interface in this class.
 ______________________________________________________________________________*/
 package albright.csit.legosetstracker;
 
@@ -29,19 +32,32 @@ import android.widget.Button;
 import android.widget.EditText;
 
 public class AddThemeDialog extends DialogFragment{
+    ////  Fields
+    ////////////////////////////////////////
     private View v;
     private TextInputLayout wrapperThemeName;
     private int maxLength;
     private Callbacks _callbacks;
 
+    ////  Setters
+    ////////////////////////////////////////
     public void setMaxLength(int maxLength){
         this.maxLength = maxLength;
     }
+
+    ////  Interface
+    ////////////////////////////////////////
     interface Callbacks{
         public boolean onBttnSaveTheme(TextInputLayout wrapper);
         public void onBttnCancelTheme();
     }
 
+    //  onCreateDialog Function
+    //
+    //  Use:  Creates the Dialog and returns this dialog.
+    //  Parameter(s):  Bundle:savedInstanceState
+    //  Returns:  Dialog
+    //
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         //  Inner builder_addTheme
         AlertDialog.Builder builder_addTheme = new AlertDialog.Builder(getActivity());
@@ -69,6 +85,17 @@ public class AddThemeDialog extends DialogFragment{
         return builder_addTheme.create();
     }
 
+    //  onStart Function
+    //
+    //  Use:  I'm using this to keep the dialog window from being dismissed
+    //          until I want it to be dismissed.  The default way is for the
+    //          dialog window to dismiss with any button click.  But I need
+    //          it to stay open till the input is validated and is valid.
+    //          So, this override is to change the default way so that the
+    //          input can be validated.
+    //  Parameter(s):  Void
+    //  Returns:  Void
+    //
     @Override
     public void onStart() {
         super.onStart();
@@ -86,12 +113,12 @@ public class AddThemeDialog extends DialogFragment{
         }
     }
 
-    //  onAttach Function
+    //  onAttach Functions
     //
     //  Use:  Attaches the dialog to the activity.  While making sure that the
-    //          _callback function has been implemented in the activity class.
-    //  Parameter(s):  Activity:activity
-    //  Returns:  none
+    //          _callbacks function has been implemented in the activity class.
+    //  Parameter(s):  Activity:activity OR if on API 23 Context:context
+    //  Returns:  Void
     //
     @TargetApi(23)
     @Override

@@ -3,11 +3,12 @@
 Creation Date:  11.14.2015
 
   Modified By:  Kevin M. Albright
-Last Modified:  11.14.2015
+Last Modified:  11.30.2015
 
    Assignment:  Lego Sets Tracker
-    File Name:  LegoTrackerDbContract
-      Purpose:  
+    File Name:  LegoTrackerDbContract.java
+      Purpose:  Used to store constants for the creation and usage of the Lego
+                  Sets Tracker database.
 ______________________________________________________________________________*/
 
 package albright.csit.legosetstracker;
@@ -21,7 +22,6 @@ public final class LegoTrackerDbContract{
 
     public static abstract class TableLegoSet implements BaseColumns {
         public static final String TABLE_NAME = "LEGO_SET";
-        //      public static final String LEGOSET_AUTO_ID = "LEGOSET_AUTO_ID";
         public static final String ID = "LEGOSET_ID";
         public static final String NAME = "LEGOSET_NAME";
         public static final String THEME_ID = "LEGOTHEME_ID";
@@ -35,7 +35,6 @@ public final class LegoTrackerDbContract{
 
     public static abstract class TableLegoTheme implements BaseColumns {
         public static final String TABLE_NAME = "LEGO_THEME";
-        //      public static final String ID = "LEGOTHEME_ID";
         public static final String NAME = "LEGOTHEME_NAME";
     }
 

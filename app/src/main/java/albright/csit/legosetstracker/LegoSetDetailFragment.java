@@ -3,11 +3,12 @@
 Creation Date:  11.16.2015
 
   Modified By:  Kevin M. Albright
-Last Modified:  11.16.2015
+Last Modified:  11.30.2015
 
    Assignment:  Lego Sets Tracker
-    File Name:  LegoSetListFragment
-      Purpose:  
+    File Name:  LegoSetListFragment.java
+      Purpose:  Used to add a new LegoSet, update a LegoSet, or just to see the
+                  info in a LegoSet.
 ______________________________________________________________________________*/
 package albright.csit.legosetstracker;
 
@@ -15,7 +16,6 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.DialogFragment;
 import android.app.Fragment;
-import android.content.ContentValues;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
@@ -29,6 +29,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -39,7 +41,7 @@ import java.util.Locale;
 
 public class LegoSetDetailFragment extends Fragment
     implements DatePickerFragment.OnDatePickedListener,
-                NumberPickerFragment.OnNumberPickedListener,
+                /*NumberPickerFragment.OnNumberPickedListener,*/
                 ThemePickerDialog.Callbacks,
                 AddThemeDialog.Callbacks{
 
@@ -54,10 +56,9 @@ public class LegoSetDetailFragment extends Fragment
                              MAX_LENGTH_SET_QUANTITY = 4;
 
     private DialogFragment themePickerDialog, addThemeDialog;
-    private boolean isBadInput = false;
     private long id;
     private OnSaveLegoSetListener _callback;
-    private LegoSet currentLegoSet, oldLegoSet;
+    private LegoSet currentLegoSet;
     private ArrayList<LegoTheme> legoThemes;
     private DbConnection db;
     private SpinnerThemeAdapter themeAdapter;
@@ -87,6 +88,13 @@ public class LegoSetDetailFragment extends Fragment
     public LegoSetDetailFragment() {
     }
 
+    //  onCreate Function
+    //
+    //  Use:  Opens up the database and gets any values needed.  If this is
+    //          created to add a new LegoSet this will take that into account.
+    //  Parameter(s):  Bundle:savedInstanceState
+    //  Returns:  Void
+    //
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if(getArguments().containsKey(ARG_ITEM_ID)) {
@@ -105,8 +113,15 @@ public class LegoSetDetailFragment extends Fragment
         }
     }
 
-    public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    //  onCreateView Function
+    //
+    //  Use:  Creates the view to be displayed to the user.
+    //  Parameter(s):  LayoutInflater:inflater, ViewGroup:container, Bundle:savedInstanceState
+    //  Returns:  View
+    //
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.set_create_update_layout, container, false);
+
         ////  Get and setup Views
         ////////////////////////////////////
         //  Set ID
@@ -198,13 +213,11 @@ public class LegoSetDetailFragment extends Fragment
                         Fragment fragment = getActivity().getFragmentManager().findFragmentByTag("detailFragment");
                         getActivity().getFragmentManager().beginTransaction().detach(fragment).commit();
                     }
-                }else {
-                    isBadInput = true;
                 }
             }
         });
 
-        //  If Viewing/Updating a set
+        //  If Viewing/Updating a set then fill values in from given LegoSet
         if(currentLegoSet != null){
             selectedLegoTheme = new LegoTheme(currentLegoSet.getThemeId(), currentLegoSet.getThemeName());
             editText_legoSetId.setText(currentLegoSet.getId());
@@ -214,20 +227,38 @@ public class LegoSetDetailFragment extends Fragment
             editText_legoSetPieces.setText(String.valueOf(currentLegoSet.getPieces()));
             editText_legoSetQuantity.setText(String.valueOf(currentLegoSet.getQuantity()));
         }
-
         return view;
     }
 
+    //  onDatePicked Function Implementation
+    //
+    //  Use:  Gets the date that the user selected and stores this as the date
+    //          buttons text.
+    //  Parameter(s):  int:year, int:month, int:day
+    //  Returns:  Void
+    //
     public void onDatePicked(int year, int month, int day){
         SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy", Locale.US);
         GregorianCalendar date = new GregorianCalendar(year, month, day);
         bttn_acquiredDate.setText(dateFormat.format(date.getTime()));
     }
 
+    //  I did not end up using this.  It does work, but I chose not to refine it
+    //    to look better.  Is the Implementation function for getting values
+    //    from the number picker dialog.
+    /*
     public void onNumberPicked(int number){
         editText_legoSetQuantity.setText(String.valueOf(number));
     }
+    */
 
+    //  getInput Function
+    //
+    //  Use:  Gets the user input from the input fields and returns said input
+    //          in a LegoSet.
+    //  Parameter(s):  Void
+    //  Returns:  LegoSet
+    //
     public LegoSet getInput(){
         LegoSet tmpSet = new LegoSet();
         tmpSet.setId(editText_legoSetId.getText().toString());
@@ -240,6 +271,12 @@ public class LegoSetDetailFragment extends Fragment
         return tmpSet;
     }
 
+    //  insertData Function
+    //
+    //  Use:  Inserts or updates the database with values.
+    //  Parameter(s):  Void
+    //  Returns:  Void
+    //
     public void insertData(){
         if (currentLegoSet.getAutoId() > 0) {
             //  Update values
@@ -252,6 +289,14 @@ public class LegoSetDetailFragment extends Fragment
         }
     }
 
+    //  createThemeDialog Function
+    //
+    //  Use:  Creates the themePickerDialog and the addThemeDialog.
+    //          Sets the themeAdapter and MAX_LENGTH_THEME_NAME for these
+    //          dialogs.  It will then start the themePickerDialog fragment.
+    //  Parameter(s):  Void
+    //  Returns:  Void
+    //
     private void createThemeDialog(){
         themePickerDialog = new ThemePickerDialog();
         addThemeDialog = new AddThemeDialog();
@@ -260,15 +305,37 @@ public class LegoSetDetailFragment extends Fragment
         themePickerDialog.show(getFragmentManager(), "themePicker");
     }
 
+    //  onAdapterClick Function Implementation
+    //
+    //  Use:  Gets user's Theme selection and sets it to the text of the theme
+    //          button.
+    //  Parameter(s):  int:which
+    //  Returns:  Void
+    //
     public void onAdapterClick(int which){
         selectedLegoTheme = themeAdapter.getItem(which);
         bttn_theme.setText(selectedLegoTheme.getName());
     }
 
+    //  onBttnAddTheme Function Implementation
+    //
+    //  Use:  Starts the addThemeDialog when user clicks this button.
+    //  Parameter(s):  Void
+    //  Returns:  Void
+    //
     public void onBttnAddTheme(){
         addThemeDialog.show(getFragmentManager(), "addTheme");
     }
 
+    //  onBttnSaveTheme Function Implementation
+    //
+    //  Use:  Sets the functionality of the save button for addThemeDialog.
+    //          Checks for valid input and when valid will save new theme to
+    //          the TableLegoTheme.  At which point it will return true so the
+    //          dialog can be dismissed.
+    //  Parameter(s):  TextInputLayout:wrapper
+    //  Returns:  boolean
+    //
     public boolean onBttnSaveTheme(TextInputLayout wrapper){
         boolean isValid = false;
         EditText editText_themeName = wrapper.getEditText();
@@ -282,16 +349,33 @@ public class LegoSetDetailFragment extends Fragment
             selectedLegoTheme = theme;
             bttn_theme.setText(selectedLegoTheme.getName());
             themeAdapter.notifyDataSetChanged();
+            Toast.makeText(getActivity(), "Theme Saved", Toast.LENGTH_LONG).show();
             isValid = true;
         }
         return isValid;
     }
 
+    //  onBttnCancelTheme Function Implementation
+    //
+    //  Use:  Will cancel the addThemeDialog and return the themePickerDialog.
+    //  Parameter(s):  Void
+    //  Returns:  Void
+    //
     public void onBttnCancelTheme(){
         themePickerDialog.show(getFragmentManager(), "themePicker");
         addThemeDialog.dismiss();
     }
 
+    ////  Validity functions.
+    ////////////////////////////////////////
+
+    //  isValidInput Function
+    //
+    //  Use:  Checks validity for each item separately then checks if any of
+    //          those returned values are false. If any are false returns FALSE.
+    //  Parameter(s):  Void
+    //  Returns:  boolean
+    //
     private boolean isValidInput(){
         boolean validId, validName, validTheme, validDate, validPieces, validQuantity;
         validId = isValidId();
@@ -305,6 +389,15 @@ public class LegoSetDetailFragment extends Fragment
             && validTheme && validDate
             && validPieces && validQuantity);
     }
+
+    //  isValidId Function
+    //
+    //  Use:  Checks if field is zero length, greater then max length, if the
+    //          setId has been used, or if the setId and autoId have been used
+    //          together.  Will then set appropriate error message.
+    //  Parameter(s):  Void
+    //  Returns:  boolean
+    //
     private boolean isValidId(){
         boolean isValid = false;
         //  Check Set ID
@@ -321,6 +414,14 @@ public class LegoSetDetailFragment extends Fragment
         }
         return isValid;
     }
+
+    //  isValidName Function
+    //
+    //  Use:  Checks if field is zero length, or greater then max length.
+    //          Will then set appropriate error message.
+    //  Parameter(s):  Void
+    //  Returns:  boolean
+    //
     private boolean isValidName(){
         boolean isValid = false;
         //  Check Set Name
@@ -334,6 +435,13 @@ public class LegoSetDetailFragment extends Fragment
         }
         return isValid;
     }
+
+    //  isValidTheme Function
+    //
+    //  Use:  Checks if user has picked a theme or not.
+    //  Parameter(s):  Void
+    //  Returns:  boolean
+    //
     private boolean isValidTheme(){
         boolean isValid = false;
         //  Check Set Theme
@@ -346,6 +454,13 @@ public class LegoSetDetailFragment extends Fragment
         }
         return isValid;
     }
+
+    //  isValidDate Function
+    //
+    //  Use:  Checks if user has picked a date or not.
+    //  Parameter(s):  Void
+    //  Returns:  boolean
+    //
     private boolean isValidDate(){
         boolean isValid = false;
         //  Check Set Acquired Date
@@ -358,6 +473,14 @@ public class LegoSetDetailFragment extends Fragment
         }
         return isValid;
     }
+
+    //  isValidPieces Function
+    //
+    //  Use:  Checks if field is zero length, or greater then max length.
+    //          Will then set appropriate error message.
+    //  Parameter(s):  Void
+    //  Returns:  boolean
+    //
     private boolean isValidPieces(){
         boolean isValid = false;
         //  Check Set Pieces
@@ -371,6 +494,14 @@ public class LegoSetDetailFragment extends Fragment
         }
         return isValid;
     }
+
+    //  isValidQuantity Function
+    //
+    //  Use:  Checks if field is zero length, or greater then max length.
+    //          Will then set appropriate error message.
+    //  Parameter(s):  Void
+    //  Returns:  boolean
+    //
     private boolean isValidQuantity(){
         boolean isValid = false;
         //  Check Set Quantity
@@ -384,6 +515,15 @@ public class LegoSetDetailFragment extends Fragment
         }
         return isValid;
     }
+
+    //  isValidThemeInput Function
+    //
+    //  Use:  Checks if field is zero length, greater then max length, if the
+    //          setId has been used, or if the Theme name has already been used.
+    //          Will then set appropriate error message.
+    //  Parameter(s):  Void
+    //  Returns:  boolean
+    //
     private boolean isValidThemeInput(TextInputLayout wrapper, EditText editText){
         boolean isValid = false;
         if(editText.getText().length() == 0){
@@ -399,6 +539,12 @@ public class LegoSetDetailFragment extends Fragment
         return isValid;
     }
 
+    //  sortThemes Function
+    //
+    //  Use:  Sorts the Themes in the themePickerDialog by Name.
+    //  Parameter(s):  ArrayList<LegoTheme>:legoThemes
+    //  Returns:  Void
+    //
     private void sortThemes(ArrayList<LegoTheme> legoThemes){
         Collections.sort(legoThemes, new Comparator<LegoTheme>() {
             @Override
@@ -408,6 +554,15 @@ public class LegoSetDetailFragment extends Fragment
         });
     }
 
+    //  generalTextWatcher Function
+    //
+    //  Use:  Used to give individualized watchers to Buttons and
+    //          TextInputLayouts; to watch for changes and clear errors when
+    //          user changes something in them.  Mostly used so I did not have
+    //          to implement a TextWatcher on each one, having lots of code.
+    //  Parameter(s):  View:v
+    //  Returns:  TextWatcher
+    //
     private TextWatcher generalTextWatcher(View v){
         final View wrapper, other;
         if(v instanceof TextInputLayout){
@@ -434,6 +589,13 @@ public class LegoSetDetailFragment extends Fragment
         return tw;
     }
 
+    //  onAttach Functions
+    //
+    //  Use:  Attaches the dialog to the activity.  While making sure that the
+    //          _callbacks function has been implemented in the activity class.
+    //  Parameter(s):  Activity:activity OR if on API 23 Context:context
+    //  Returns:  none
+    //
     @TargetApi(23)
     @Override
     public void onAttach(Context context){

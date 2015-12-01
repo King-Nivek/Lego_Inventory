@@ -1,15 +1,13 @@
 /*______________________________________________________________________________
    Created By:  Kevin M. Albright
-Creation Date:  10.31.2015
+Creation Date:  11.23.2015
 
   Modified By:  Kevin M. Albright
-Last Modified:  11.02.2015
+Last Modified:  12.01.2015
 
-   Assignment:  PizzaOrderAppFragments
-    File Name:  DatePickerFragment.java
-      Purpose:  A fragment to display a date picker dialog.  That allows for
-                  max date to be set to limit how far out the picker can go.
-                  And setting the min date so past dates can not be selected.
+   Assignment:  Lego Sets Tracker
+    File Name:  NumberPickerFragment.java
+      Purpose:  A fragment to display a Number picker dialog.
 ______________________________________________________________________________*/
 
 package albright.csit.legosetstracker;
@@ -17,7 +15,6 @@ package albright.csit.legosetstracker;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.Fragment;
@@ -33,7 +30,6 @@ public class NumberPickerFragment extends DialogFragment{
     ////  Fields
     /////////////////////////////
     private OnNumberPickedListener _callback;
-    private DatePickerDialog dpDialog;
 
     ////  Interface
     /////////////////////////////
@@ -95,10 +91,11 @@ public class NumberPickerFragment extends DialogFragment{
         }
     }
 
-    //  onDateSet Function
+    //  onNumberSet Function
     //
     //  Use:  Where the implemented callback function will be placed.
-    //  Parameter(s):  DatePicker:view, int:year, int:monthOfYear, int:dayOfMonth
+    //          To return the selected number.
+    //  Parameter(s):  int:number
     //  Returns:  none
     //
     public void onNumberSet(int number) {

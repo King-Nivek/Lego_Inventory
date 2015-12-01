@@ -3,21 +3,21 @@
 Creation Date:  11.11.2015
 
   Modified By:  Kevin M. Albright
-Last Modified:  11.11.2015
+Last Modified:  11.30.2015
 
    Assignment:  Lego Sets Tracker
     File Name:  LegoSet.java
-      Purpose:  
+      Purpose:  A LegoSet object and its fields.  Will be used to store a
+                  lego set.
 ______________________________________________________________________________*/
 
 package albright.csit.legosetstracker;
 
-import android.content.ContentValues;
 import android.os.Bundle;
 
 public class LegoSet {
     ////  Fields
-    /////////////////////////////////////
+    ////////////////////////////////////////
     private long autoId;
     private String id;
     private String name;
@@ -28,7 +28,7 @@ public class LegoSet {
     private int quantity;
 
     ////  Setters
-    /////////////////////////////////////
+    ////////////////////////////////////////
     public void setAutoId(long autoId) {
         this.autoId = autoId;
     }
@@ -62,7 +62,7 @@ public class LegoSet {
     }
 
     ////  Getters
-    /////////////////////////////////////
+    ////////////////////////////////////////
     public long getAutoId() {
         return autoId;
     }
@@ -96,7 +96,7 @@ public class LegoSet {
     }
 
     ////  Constructors
-    /////////////////////////////////////
+    ////////////////////////////////////////
     public LegoSet() {
     }
 
@@ -118,6 +118,12 @@ public class LegoSet {
         this.quantity = legoSetQuantity;
     }
 
+    //  writeBundle Function
+    //
+    //  Use:  Creates a bundle that is filled with this LegoSet's values.
+    //  Parameter(s):  Void
+    //  Returns:  Bundle
+    //
     public Bundle writeBundle(){
         Bundle b = new Bundle();
         b.putLong(LegoTrackerDbContract.TableLegoSet._ID, this.autoId);
@@ -131,6 +137,12 @@ public class LegoSet {
         return b;
     }
 
+    //  readBundle Function
+    //
+    //  Use:  Creates a LegoSet that is filled with the given Bundle's values.
+    //  Parameter(s):  Bundle:b
+    //  Returns:  LegoSet
+    //
     public static LegoSet readBundle(Bundle b){
         LegoSet legoSet = new LegoSet();
         legoSet.setAutoId(b.getLong(LegoTrackerDbContract.TableLegoSet._ID));
@@ -144,29 +156,12 @@ public class LegoSet {
         return legoSet;
     }
 
-    public ContentValues equalsByField(LegoSet that){
-        ContentValues truthTable = new ContentValues(8);
-        truthTable.put(LegoTrackerDbContract.TableLegoSet._ID, (this.autoId == that.autoId));
-        truthTable.put(LegoTrackerDbContract.TableLegoSet.ID, (this.id.contentEquals(that.id)));
-        truthTable.put(LegoTrackerDbContract.TableLegoSet.NAME, (this.name.contentEquals(that.name)));
-        truthTable.put(LegoTrackerDbContract.TableLegoSet.THEME_ID, (this.themeId == that.themeId));
-        truthTable.put(LegoTrackerDbContract.TableLegoSet.THEME_NAME, (this.themeName.contentEquals(that.themeName)));
-        truthTable.put(LegoTrackerDbContract.TableLegoSet.ACQUIRED_DATE, (this.acquiredDate.contentEquals(that.acquiredDate)));
-        truthTable.put(LegoTrackerDbContract.TableLegoSet.PIECES, (this.pieces == that.pieces));
-        truthTable.put(LegoTrackerDbContract.TableLegoSet.QUANTITY, (this.quantity == that.quantity));
-        return truthTable;
-    }
-
-    public boolean equals(LegoSet that){
-        return ((this.autoId == that.autoId)
-             && (this.id.contentEquals(that.id))
-             && (this.name.contentEquals(that.name))
-             && (this.themeId == that.themeId)
-             && (this.themeName.contentEquals(that.themeName))
-             && (this.acquiredDate.contentEquals(that.acquiredDate))
-             && (this.pieces == that.pieces)
-             && (this.quantity == that.quantity));
-    }
+    //  copy Function
+    //
+    //  Use:  Creates a new LegoSet with the values of the given LegoSet.
+    //  Parameter(s):  LegoSet:legoSet
+    //  Returns:  LegoSet
+    //
     public static LegoSet copy(LegoSet legoSet){
         return new LegoSet(legoSet.getAutoId(), legoSet.getId(), legoSet.getName(),
             legoSet.getThemeId(), legoSet.getThemeName(), legoSet.getPieces(),

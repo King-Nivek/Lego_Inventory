@@ -3,11 +3,12 @@
 Creation Date:  11.12.2015
 
   Modified By:  Kevin M. Albright
-Last Modified:  11.12.2015
+Last Modified:  01.01.2015
 
    Assignment:  Lego Sets Tracker
     File Name:  LegoTheme
-      Purpose:  
+      Purpose:  A LegoTheme object and its fields.  Will be used to store a
+                  lego theme.
 ______________________________________________________________________________*/
 package albright.csit.legosetstracker;
 
@@ -40,7 +41,7 @@ public class LegoTheme {
     }
 
     ////  Constructors
-    /////////////////////////////////////
+    ////////////////////////////////////////
     public LegoTheme() {
     }
 
@@ -53,6 +54,12 @@ public class LegoTheme {
         this.name = themeName;
     }
 
+    //  writeBundle Function
+    //
+    //  Use:  Creates a bundle that is filled with this LegoTheme's values.
+    //  Parameter(s):  Void
+    //  Returns:  Bundle
+    //
     public Bundle writeBundle(){
         Bundle b = new Bundle();
         b.putLong(LegoTrackerDbContract.TableLegoTheme._ID, this.autoId);
@@ -60,6 +67,12 @@ public class LegoTheme {
         return b;
     }
 
+    //  readBundle Function
+    //
+    //  Use:  Creates a LegoTheme that is filled with the given Bundle's values.
+    //  Parameter(s):  Bundle:b
+    //  Returns:  LegoTheme
+    //
     public static LegoTheme readBundle(Bundle b){
         LegoTheme legoTheme = new LegoTheme();
         legoTheme.setAutoId(b.getLong(LegoTrackerDbContract.TableLegoTheme._ID));
@@ -67,14 +80,22 @@ public class LegoTheme {
         return legoTheme;
     }
 
-    public boolean equals(LegoTheme that){
-        return ((this.autoId == that.autoId)
-            && (this.name.contentEquals(that.name)));
-    }
+    //  copy Function
+    //
+    //  Use:  Creates a new LegoTheme with the values of the given LegoTheme.
+    //  Parameter(s):  LegoTheme:legoTheme
+    //  Returns:  LegoTheme
+    //
     public static LegoTheme copy(LegoTheme legoTheme){
         return new LegoTheme(legoTheme.getAutoId(), legoTheme.getName());
     }
 
+    //  toString Function
+    //
+    //  Use:  Returns the Theme Name.
+    //  Parameter(s):  Void
+    //  Returns:  String
+    //
     @Override
     public String toString() {
         return this.getName();

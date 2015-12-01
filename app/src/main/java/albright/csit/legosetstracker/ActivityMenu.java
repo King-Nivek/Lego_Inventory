@@ -3,11 +3,12 @@
 Creation Date:  11.11.2015
 
   Modified By:  Kevin M. Albright
-Last Modified:  11.11.2015
+Last Modified:  11.30.2015
 
    Assignment:  Lego Sets Tracker
-    File Name:  ActivityMenu
-      Purpose:  
+    File Name:  ActivityMenu.java
+      Purpose:  Parent Class for LegoSetListActivity and LegoThemeListActivity.
+                Handles common Toolbar menu items.
 ______________________________________________________________________________*/
 
 package albright.csit.legosetstracker;
@@ -20,35 +21,46 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.Toast;
-
 import java.sql.SQLException;
 import java.text.DecimalFormat;
-import java.text.NumberFormat;
 
 public class ActivityMenu extends AppCompatActivity {
 
+    //  onCreateOptionsMenu Function
+    //
+    //  Use:  Creates the Menu options view.
+    //  Parameter(s):  Menu:menu
+    //  Returns:  boolean
+    //
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main_menu, menu);
         return true;
     }
 
+    //  onOptionsItemSelected Function
+    //
+    //  Use:  Handles menu item selections.
+    //  Parameter(s):  MenuItem:item
+    //  Returns:  boolean
+    //
     public boolean onOptionsItemSelected(MenuItem item) {
         boolean isSelected = false;
-        Toast toast;
 
         switch (item.getItemId()) {
+            //  Go to Lego Set List Activity
             case R.id.menuItem_sets:
                 Intent intentSet = new Intent(this, LegoSetListActivity.class);
                 startActivity(intentSet);
                 break;
 
+            //  Go to Lego Theme List Activity
             case R.id.menuItem_themes:
                 Intent intentTheme = new Intent(this, LegoThemeListActivity.class);
                 startActivity(intentTheme);
                 break;
 
+            //  Open Dialog Window showing Report information.
             case R.id.menuItem_reports:
                 try{
                     DbConnection db = new DbConnection(this);
@@ -58,7 +70,7 @@ public class ActivityMenu extends AppCompatActivity {
                     numberOfSets = db.numberOfLegoSets();
                     numberOfPieces = db.numberOfPieces();
                     quantityOfSets = db.quantityOfLegoSets();
-
+                    //  Build dialog window.
                     AlertDialog.Builder builder = new AlertDialog.Builder(this);
                     builder.setTitle("Sets by the Numbers:")
                         .setMessage("Total Unique Sets: " + format.format(numberOfSets) + "  \n"

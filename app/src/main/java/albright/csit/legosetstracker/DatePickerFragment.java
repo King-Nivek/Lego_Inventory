@@ -3,13 +3,11 @@
 Creation Date:  10.31.2015
 
   Modified By:  Kevin M. Albright
-Last Modified:  11.02.2015
+Last Modified:  11.30.2015
 
-   Assignment:  PizzaOrderAppFragments
+   Assignment:  Lego Sets Tracker
     File Name:  DatePickerFragment.java
-      Purpose:  A fragment to display a date picker dialog.  That allows for
-                  max date to be set to limit how far out the picker can go.
-                  And setting the min date so past dates can not be selected.
+      Purpose:  A fragment to display a date picker dialog.
 ______________________________________________________________________________*/
 
 package albright.csit.legosetstracker;
@@ -24,7 +22,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.DatePicker;
-
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
@@ -44,7 +41,7 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
 
     //  onCreateDialog Function
     //
-    //  Use:  Creates the dialog.
+    //  Use:  Creates the Date picker dialog.
     //  Parameter(s):  Bundle:savedInstanceState
     //  Returns:  Dialog
     //
@@ -58,11 +55,21 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
         return dpDialog;
     }
 
-    //  onAttach Function
+    //  onDateSet Function
+    //
+    //  Use:  Where the implemented callback function will be placed.
+    //  Parameter(s):  DatePicker:view, int:year, int:monthOfYear, int:dayOfMonth
+    //  Returns:  none
+    //
+    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+        _callback.onDatePicked(year, monthOfYear, dayOfMonth);
+    }
+
+    //  onAttach Functions
     //
     //  Use:  Attaches the dialog to the activity.  While making sure that the
-    //          _callback function has been implemented in the activity class.
-    //  Parameter(s):  Activity:activity
+    //          _callbacks function has been implemented in the activity class.
+    //  Parameter(s):  Activity:activity OR if on API 23 Context:context
     //  Returns:  none
     //
     @TargetApi(23)
@@ -84,15 +91,5 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
         } catch (ClassCastException e) {
             Log.d("DatePickerFragment---->", activity.toString() + "must Implement");
         }
-    }
-
-    //  onDateSet Function
-    //
-    //  Use:  Where the implemented callback function will be placed.
-    //  Parameter(s):  DatePicker:view, int:year, int:monthOfYear, int:dayOfMonth
-    //  Returns:  none
-    //
-    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-        _callback.onDatePicked(year, monthOfYear, dayOfMonth);
     }
 }

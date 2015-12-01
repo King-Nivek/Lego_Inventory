@@ -1,13 +1,13 @@
 /*______________________________________________________________________________
    Created By:  Kevin M. Albright
-Creation Date:  11.16.2015
+Creation Date:  11.30.2015
 
   Modified By:  Kevin M. Albright
-Last Modified:  11.16.2015
+Last Modified:  12.01.2015
 
    Assignment:  Lego Sets Tracker
     File Name:  LegoThemeListFragment
-      Purpose:  
+      Purpose:  Used to add a new LegoTheme and update a LegoTheme
 ______________________________________________________________________________*/
 package albright.csit.legosetstracker;
 
@@ -58,6 +58,13 @@ public class LegoThemeDetailFragment extends Fragment {
     public LegoThemeDetailFragment() {
     }
 
+    //  onCreate Function
+    //
+    //  Use:  Opens up the database and gets any values needed.  If this is
+    //          created to add a new LegoTheme this will take that into account.
+    //  Parameter(s):  Bundle:savedInstanceState
+    //  Returns:  Void
+    //
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if(getArguments().containsKey(ARG_ITEM_ID)) {
@@ -74,11 +81,17 @@ public class LegoThemeDetailFragment extends Fragment {
         }
     }
 
+    //  onCreateView Function
+    //
+    //  Use:  Creates the view to be displayed to the user.
+    //  Parameter(s):  LayoutInflater:inflater, ViewGroup:container, Bundle:savedInstanceState
+    //  Returns:  View
+    //
     public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.theme_create_update_layout, container, false);
+
         ////  Get and setup Views
         ////////////////////////////////////
-
         //  Theme Name
         wrapperThemeName= (TextInputLayout)view.findViewById(R.id.wrapper_update_themeName);
         wrapperThemeName.setCounterMaxLength(MAX_LENGTH_THEME_NAME);
@@ -129,12 +142,25 @@ public class LegoThemeDetailFragment extends Fragment {
         return view;
     }
 
+    //  getInput Function
+    //
+    //  Use:  Gets the user input from the input fields and returns said input
+    //          in a LegoTheme.
+    //  Parameter(s):  Void
+    //  Returns:  LegoTheme
+    //
     public LegoTheme getInput(){
         LegoTheme tmpTheme = new LegoTheme();
         tmpTheme.setName(editText_legoThemeName.getText().toString());
         return tmpTheme;
     }
 
+    //  insertData Function
+    //
+    //  Use:  Inserts or updates the database with values.
+    //  Parameter(s):  Void
+    //  Returns:  Void
+    //
     public void insertData(){
         if (currentLegoTheme.getAutoId() > 0) {
             //  Update values
@@ -147,6 +173,14 @@ public class LegoThemeDetailFragment extends Fragment {
         }
     }
 
+    //  isValidThemeName Function
+    //
+    //  Use:  Checks if field is zero length, greater then max length, if the
+    //          setId has been used, or if the Theme name has already been used.
+    //          Will then set appropriate error message.
+    //  Parameter(s):  Void
+    //  Returns:  boolean
+    //
     private boolean isValidThemeName(){
         boolean isValid = false;
         if(editText_legoThemeName.getText().length() == 0){
@@ -162,6 +196,15 @@ public class LegoThemeDetailFragment extends Fragment {
         return isValid;
     }
 
+    //  generalTextWatcher Function
+    //
+    //  Use:  Used to give individualized watchers to Buttons and
+    //          TextInputLayouts; to watch for changes and clear errors when
+    //          user changes something in them.  Mostly used so I did not have
+    //          to implement a TextWatcher on each one, having lots of code.
+    //  Parameter(s):  View:v
+    //  Returns:  TextWatcher
+    //
     private TextWatcher generalTextWatcher(View v){
         final View wrapper, other;
         if(v instanceof TextInputLayout){
@@ -188,6 +231,13 @@ public class LegoThemeDetailFragment extends Fragment {
         return tw;
     }
 
+    //  onAttach Functions
+    //
+    //  Use:  Attaches the dialog to the activity.  While making sure that the
+    //          _callbacks function has been implemented in the activity class.
+    //  Parameter(s):  Activity:activity OR if on API 23 Context:context
+    //  Returns:  none
+    //
     @TargetApi(23)
     @Override
     public void onAttach(Context context){

@@ -3,11 +3,14 @@
 Creation Date:  11.29.2015
 
   Modified By:  Kevin M. Albright
-Last Modified:  11.29.2015
+Last Modified:  12.01.2015
 
    Assignment:  Lego Sets Tracker
-    File Name:  ThemePickerDialog
-      Purpose:  
+    File Name:  ThemePickerDialog.java
+      Purpose:  Creates a dialog window that will allow the user to pick a
+                  theme.  Or the user can click a button to add a new theme.
+                  Clicks are implemented through other classes implementing
+                  the interface in this class.
 ______________________________________________________________________________*/
 package albright.csit.legosetstracker;
 
@@ -23,18 +26,30 @@ import android.os.Bundle;
 import android.util.Log;
 
 public class ThemePickerDialog extends DialogFragment{
+    ////  Fields
+    ////////////////////////////////////////
     private SpinnerThemeAdapter adapter;
     private Callbacks _callbacks;
 
+    ////  Setters
+    ////////////////////////////////////////
     public void setAdapter(SpinnerThemeAdapter adapter){
         this.adapter = adapter;
     }
 
+    ////  Interface
+    ////////////////////////////////////////
     interface Callbacks{
         public void onAdapterClick(int which);
         public void onBttnAddTheme();
     }
 
+    //  onCreateDialog Function
+    //
+    //  Use:  Creates the Dialog and returns this dialog.
+    //  Parameter(s):  Bundle:savedInstanceState
+    //  Returns:  Dialog
+    //
     public Dialog onCreateDialog(Bundle savedInstanceState){
         AlertDialog.Builder builder_themeDialog = new AlertDialog.Builder(getActivity());
         builder_themeDialog.setTitle(R.string.update_dialogTheme_title)
@@ -59,12 +74,12 @@ public class ThemePickerDialog extends DialogFragment{
         return builder_themeDialog.create();
     }
 
-    //  onAttach Function
+    //  onAttach Functions
     //
     //  Use:  Attaches the dialog to the activity.  While making sure that the
-    //          _callback function has been implemented in the activity class.
-    //  Parameter(s):  Activity:activity
-    //  Returns:  none
+    //          _callbacks function has been implemented in the activity class.
+    //  Parameter(s):  Activity:activity OR if on API 23 Context:context
+    //  Returns:  Void
     //
     @TargetApi(23)
     @Override

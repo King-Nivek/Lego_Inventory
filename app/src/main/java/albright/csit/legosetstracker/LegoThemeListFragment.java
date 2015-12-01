@@ -1,13 +1,16 @@
 /*______________________________________________________________________________
    Created By:  Kevin M. Albright
-Creation Date:  11.16.2015
+Creation Date:  11.30.2015
 
   Modified By:  Kevin M. Albright
-Last Modified:  11.16.2015
+Last Modified:  12.01.2015
 
    Assignment:  Lego Sets Tracker
-    File Name:  LegoThemeListFragment
-      Purpose:  
+    File Name:  LegoThemeListFragment.java
+      Purpose:  Shows the user a list of LegoThemes.  User may click on a
+                  LegoTheme to view its details and update its information.  The
+                  user may also long click on a LegoTheme to initiate a delete
+                  function.
 ______________________________________________________________________________*/
 package albright.csit.legosetstracker;
 
@@ -26,7 +29,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
-
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -36,11 +38,7 @@ public class LegoThemeListFragment extends Fragment implements LegoThemeListAdap
 
     ////  Fields
     ///////////////////////////////////
-    private static final String STATE_ACTIVATED_POSITION = "legoThemeListFragment_activatedPosition";
     private Callbacks _callbacks = activityCall;
-    private int _activatedPosition = -1;
-
-
     private DbConnection db;
     private ArrayList<LegoTheme> legoThemesList;
     private RecyclerView recyclerView;
@@ -48,9 +46,7 @@ public class LegoThemeListFragment extends Fragment implements LegoThemeListAdap
     private RecyclerView.LayoutManager layoutManager;
     private DefaultItemAnimator itemAnimator;
 
-
-
-    ////  interfaces
+    ////  Interfaces
     ///////////////////////////////////
     public interface Callbacks{
         public void onItemSelected(long item);
@@ -62,16 +58,28 @@ public class LegoThemeListFragment extends Fragment implements LegoThemeListAdap
         public void onItemSelected(long item) {}
     };
 
-
     ////  Constructors
     ///////////////////////////////////
     public LegoThemeListFragment(){
     }
 
+    //  onCreate Function
+    //
+    //  Use:  Initializes the fragment.
+    //  Parameter(s):  Bundle:savedInstanceState
+    //  Returns:  Void
+    //
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
     }
 
+    //  onCreateView Function
+    //
+    //  Use:  Creates the view to be displayed to the user.  Opens the database
+    //          and retrieves a list of LegoThemes to set up the recyclerView
+    //  Parameter(s):  LayoutInflater:inflater, ViewGroup:container, Bundle:savedInstanceState
+    //  Returns:  View
+    //
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         View view = inflater.inflate(R.layout.fragment_list, container, false);
         db = new DbConnection(getActivity());
@@ -97,10 +105,28 @@ public class LegoThemeListFragment extends Fragment implements LegoThemeListAdap
         return view;
     }
 
+    //  onItemClicked Function Implementation
+    //
+    //  Use:  Implements an implementation of what to do when an Item is clicked.
+    //          Passes item id.
+    //  Parameter(s):  long:id
+    //  Returns:  Void
+    //
     public void onItemClicked(long id){
         _callbacks.onItemSelected(id);
     }
 
+    //  onItemLongClicked Function Implementation
+    //
+    //  Use:  Implements an implementation of what to do when an Item is long
+    //          clicked.  Checks to see if the selected theme is in active use.
+    //          If true then will create a dialog telling the user that selected
+    //          theme may not be deleted for it is in use. Else it will Create a
+    //          dialog asking the user if they want to delete the selected
+    //          LegoTheme.  Will delete if user selects the delete button.
+    //  Parameter(s):  long:id
+    //  Returns:  boolean
+    //
     public boolean onItemLongClicked(long id){
         boolean isTrue = false;
         if(db.usesTheme(id)){
@@ -124,6 +150,7 @@ public class LegoThemeListFragment extends Fragment implements LegoThemeListAdap
                     db.deleteLegoTheme(legoThemesList.get(position));
                     legoThemesList.remove(position);
                     adapter.notifyItemRemoved(position);
+                    Toast.makeText(getActivity(), "Theme Deleted", Toast.LENGTH_LONG).show();
                 }
             }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                 @Override
@@ -135,6 +162,38 @@ public class LegoThemeListFragment extends Fragment implements LegoThemeListAdap
         return isTrue;
     }
 
+    //  savedLegoTheme Function
+    //
+    //  Use:  Updates the recyclerView for legoTheme updates and insertions for
+    //          given legoTheme object.
+    //  Parameter(s):  LegoTheme:legoTheme
+    //  Returns:  Void
+    //
+    public void savedLegoTheme(LegoTheme legoTheme){
+        RecyclerView.ViewHolder vh = recyclerView.findViewHolderForItemId(legoTheme.getAutoId());
+        int position;
+        if(vh == null) {
+            int tmpSize = legoThemesList.size();
+            legoThemesList.add(legoTheme);
+            adapter.notifyItemInserted(tmpSize);
+            ((LegoThemeListAdapter)adapter).sortIds();
+            Toast.makeText(getActivity(), "Theme Saved", Toast.LENGTH_LONG).show();
+        }else {
+            position = vh.getAdapterPosition();
+            legoThemesList.set(position, legoTheme);
+            adapter.notifyItemChanged(position);
+            ((LegoThemeListAdapter)adapter).sortIds();
+            Toast.makeText(getActivity(), "Theme Updated", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    //  onAttach Functions
+    //
+    //  Use:  Attaches the dialog to the activity.  While making sure that the
+    //          _callbacks function has been implemented in the activity class.
+    //  Parameter(s):  Activity:activity OR if on API 23 Context:context
+    //  Returns:  none
+    //
     @TargetApi(23)
     @Override
     public void onAttach(Context context) {
@@ -155,30 +214,26 @@ public class LegoThemeListFragment extends Fragment implements LegoThemeListAdap
         }
     }
 
+    //  onDetach Function
+    //
+    //  Use:  reset what _callbacks holds on fragment detaching from activity.
+    //  Parameter(s):  Void
+    //  Returns:  Void
+    //
     public void onDetach(){
         super.onDetach();
         _callbacks = activityCall;
     }
 
+    //  onActivityCreated Function
+    //
+    //  Use:  Call super for onActivityCreated
+    //  Parameter(s):  Bundle:savedInstanceState
+    //  Returns:  Void
+    //
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
     }
 
-    public void savedLegoTheme(LegoTheme legoTheme){
-        RecyclerView.ViewHolder vh = recyclerView.findViewHolderForItemId(legoTheme.getAutoId());
-        int position;
-        if(vh == null) {
-            int tmpSize = legoThemesList.size();
-            legoThemesList.add(legoTheme);
-            adapter.notifyItemInserted(tmpSize);
-            ((LegoThemeListAdapter)adapter).sortIds();
-            Toast.makeText(getActivity(), "Theme Saved", Toast.LENGTH_LONG).show();
-        }else {
-            position = vh.getAdapterPosition();
-            legoThemesList.set(position, legoTheme);
-            adapter.notifyItemChanged(position);
-            ((LegoThemeListAdapter)adapter).sortIds();
-            Toast.makeText(getActivity(), "Theme Updated", Toast.LENGTH_LONG).show();
-        }
-    }
+
 }
