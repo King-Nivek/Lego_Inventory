@@ -1,12 +1,12 @@
 /*______________________________________________________________________________
    Created By:  Kevin M. Albright
-Creation Date:  11.17.2015
+Creation Date:  11.30.2015
 
   Modified By:  Kevin M. Albright
-Last Modified:  11.17.2015
+Last Modified:  11.30.2015
 
    Assignment:  Lego Sets Tracker
-    File Name:  LegoListAdapter
+    File Name:  LegoThemeListAdapter
       Purpose:  
 ______________________________________________________________________________*/
 package albright.csit.legosetstracker;
@@ -22,10 +22,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-public class LegoSetListAdapter extends RecyclerView.Adapter<LegoSetListAdapter.ViewHolder> {
+public class LegoThemeListAdapter extends RecyclerView.Adapter<LegoThemeListAdapter.ViewHolder> {
     ////  Fields
     ///////////////////////////////////
-    private ArrayList<LegoSet> values;
+    private ArrayList<LegoTheme> values;
     private ViewHolder.ClickListener clickListener;
 
     ////  Inner Class
@@ -33,14 +33,12 @@ public class LegoSetListAdapter extends RecyclerView.Adapter<LegoSetListAdapter.
     public static class ViewHolder extends RecyclerView.ViewHolder implements
                                 View.OnClickListener, View.OnLongClickListener{
 
-        public TextView setId;
-        public TextView setName;
+        public TextView themeName;
         private  ClickListener listener;
 
         public ViewHolder(View v, ClickListener listener){
             super(v);
-            setId = (TextView)v.findViewById(R.id.textView_setNumber);
-            setName = (TextView)v.findViewById(R.id.textView_setName);
+            themeName = (TextView)v.findViewById(R.id.textView_themeRow);
 
             this.listener = listener;
             v.setClickable(true);
@@ -49,7 +47,7 @@ public class LegoSetListAdapter extends RecyclerView.Adapter<LegoSetListAdapter.
         }
 
         public void onClick(View v){
-            Log.d("SetsAdapter_-->", "Item: " + getAdapterPosition() + " clicked.");
+            Log.d("ThemeAdapter_-->", "Item: " + getAdapterPosition() + " clicked.");
             if(listener != null){
                 listener.onItemClicked(getItemId());
             }
@@ -57,7 +55,7 @@ public class LegoSetListAdapter extends RecyclerView.Adapter<LegoSetListAdapter.
 
         public boolean onLongClick(View v){
             boolean value;
-            Log.d("SetsAdapter--->", "Item: " + getAdapterPosition() + " long clicked.");
+            Log.d("ThemeAdapter--->", "Item: " + getAdapterPosition() + " long clicked.");
             if(listener != null){
                 value = listener.onItemLongClicked(getItemId());
             }else {
@@ -74,32 +72,30 @@ public class LegoSetListAdapter extends RecyclerView.Adapter<LegoSetListAdapter.
 
     ////  Constructor(s)
     ///////////////////////////////////
-    public LegoSetListAdapter(ArrayList<LegoSet> values, ViewHolder.ClickListener clickListener){
+    public LegoThemeListAdapter(ArrayList<LegoTheme> values, ViewHolder.ClickListener clickListener){
         this.values = values;
         this.clickListener = clickListener;
         setHasStableIds(true);
     }
 
-    public void add(int position, LegoSet item){
+    public void add(int position, LegoTheme item){
         notifyItemInserted(position);
     }
 
-    public void remove(LegoSet item){
+    public void remove(LegoTheme item){
         int position = values.indexOf(item);
         notifyItemRemoved(position);
     }
 
 
-    public LegoSetListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.lego_set_list_row, parent, false);
+    public LegoThemeListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.lego_theme_list_row, parent, false);
         ViewHolder vh = new ViewHolder(v, clickListener);
         return  vh;
     }
 
     public void onBindViewHolder(ViewHolder holder, int position){
-        final LegoSet item = values.get(position);
-        holder.setId.setText(values.get(position).getId());
-        holder.setName.setText(values.get(position).getName());
+        holder.themeName.setText(values.get(position).getName());
     }
 
     public int getItemCount(){
@@ -112,10 +108,10 @@ public class LegoSetListAdapter extends RecyclerView.Adapter<LegoSetListAdapter.
     }
 
     public void sortIds(){
-        Collections.sort(values, new Comparator<LegoSet>() {
+        Collections.sort(values, new Comparator<LegoTheme>() {
             @Override
-            public int compare(LegoSet lhs, LegoSet rhs) {
-                return lhs.getId().compareTo(rhs.getId());
+            public int compare(LegoTheme lhs, LegoTheme rhs) {
+                return lhs.getName().compareTo(rhs.getName());
             }
         });
         notifyDataSetChanged();

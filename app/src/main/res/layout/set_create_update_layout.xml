@@ -12,12 +12,13 @@
     android:layout_marginTop="8dp"
     android:layout_marginBottom="8dp"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    android:isScrollContainer="true">
+    android:isScrollContainer="true"
+    >
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="@string/update_lbl_set_info"
         android:id="@+id/textView_update_lbl_setInfo"
         android:layout_row="0"
@@ -99,12 +100,14 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="@string/update_lbl_other_info"
         android:id="@+id/textView_update_lbl_otherInfo"
         android:layout_row="4"
         android:layout_column="0"
-        android:layout_columnSpan="7"/>
+        android:layout_columnSpan="7"
+        android:layout_marginTop="4dp"
+        />
 
     <TextView
         android:layout_width="wrap_content"

@@ -83,6 +83,12 @@ public class LegoSetListFragment extends Fragment implements LegoSetListAdapter.
             recyclerView.setLayoutManager(layoutManager);
             itemAnimator = new DefaultItemAnimator();
             recyclerView.setItemAnimator(itemAnimator);
+            Collections.sort(legoSetsList, new Comparator<LegoSet>() {
+                @Override
+                public int compare(LegoSet s1, LegoSet s2) {
+                    return s1.getId().compareToIgnoreCase(s2.getId());
+                }
+            });
             adapter = new LegoSetListAdapter(legoSetsList, this);
             recyclerView.setAdapter(adapter);
 //            db.close();
@@ -152,11 +158,13 @@ public class LegoSetListFragment extends Fragment implements LegoSetListAdapter.
             int tmpSize = legoSetsList.size();
             legoSetsList.add(legoSet);
             adapter.notifyItemInserted(tmpSize);
+            ((LegoSetListAdapter)adapter).sortIds();
             Toast.makeText(getActivity(), "Set Saved", Toast.LENGTH_LONG).show();
         }else {
             position = vh.getAdapterPosition();
             legoSetsList.set(position, legoSet);
             adapter.notifyItemChanged(position);
+            ((LegoSetListAdapter)adapter).sortIds();
             Toast.makeText(getActivity(), "Set Updated", Toast.LENGTH_LONG).show();
         }
     }

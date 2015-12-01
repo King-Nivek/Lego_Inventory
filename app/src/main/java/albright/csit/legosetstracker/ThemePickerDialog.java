@@ -20,11 +20,7 @@ import android.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.design.widget.TextInputLayout;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.EditText;
 
 public class ThemePickerDialog extends DialogFragment{
     private SpinnerThemeAdapter adapter;
@@ -75,7 +71,7 @@ public class ThemePickerDialog extends DialogFragment{
     public void onAttach(Context context) {
         super.onAttach(context);
         try {
-            Fragment fragContext = getFragmentManager().findFragmentById(R.id.legoset_detail_container);
+            Fragment fragContext = getFragmentManager().findFragmentById(R.id.lego_detail_container);
             _callbacks = (Callbacks) fragContext;
         } catch (ClassCastException e) {
             Log.d("ThemePickerDialog---->", context.toString() + "must Implement");

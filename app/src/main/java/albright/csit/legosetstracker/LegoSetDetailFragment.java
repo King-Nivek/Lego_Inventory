@@ -32,6 +32,8 @@ import android.widget.TextView;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 
@@ -96,6 +98,7 @@ public class LegoSetDetailFragment extends Fragment
                     currentLegoSet = db.getLegoSet(id);
                 }
                 legoThemes = db.getAllLegoThemes();
+                sortThemes(legoThemes);
             } catch (SQLException e) {
                 Log.d("Tag--->", "Caught");
             }
@@ -126,8 +129,8 @@ public class LegoSetDetailFragment extends Fragment
 
         //  Set Theme
         bttn_theme = (Button)view.findViewById(R.id.button_update_theme);
-        themeAdapter = new SpinnerThemeAdapter(getActivity(), R.layout.spinner_layout,
-                R.id.textView_spinnerRow, legoThemes);
+        themeAdapter = new SpinnerThemeAdapter(getActivity(), R.layout.lego_theme_list_row,
+                R.id.textView_themeRow, legoThemes);
         bttn_theme.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -164,14 +167,6 @@ public class LegoSetDetailFragment extends Fragment
             new RegexInputFilter("[\\d]+")
         });
         editText_legoSetQuantity.addTextChangedListener(generalTextWatcher(wrapperSetQuantity));
-        /*//  Quantity Entry
-        editText_legoSetQuantity.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DialogFragment numberPickerFragment = new NumberPickerFragment();
-                numberPickerFragment.show(getFragmentManager(), "numberPicker");
-            }
-        });*/
 
         //  Cancel Button
         bttn_cancel = (Button)view.findViewById(R.id.button_update_cancel);
@@ -283,6 +278,7 @@ public class LegoSetDetailFragment extends Fragment
             LegoTheme theme = new LegoTheme(-1, text);
             db.insertLegoTheme(theme);
             legoThemes.add(theme);
+            sortThemes(legoThemes);
             selectedLegoTheme = theme;
             bttn_theme.setText(selectedLegoTheme.getName());
             themeAdapter.notifyDataSetChanged();
@@ -403,6 +399,15 @@ public class LegoSetDetailFragment extends Fragment
         return isValid;
     }
 
+    private void sortThemes(ArrayList<LegoTheme> legoThemes){
+        Collections.sort(legoThemes, new Comparator<LegoTheme>() {
+            @Override
+            public int compare(LegoTheme lhs, LegoTheme rhs) {
+                return lhs.getName().compareTo(rhs.getName());
+            }
+        });
+    }
+
     private TextWatcher generalTextWatcher(View v){
         final View wrapper, other;
         if(v instanceof TextInputLayout){
@@ -446,78 +451,6 @@ public class LegoSetDetailFragment extends Fragment
             _callback = (OnSaveLegoSetListener)activity;
         }catch (ClassCastException e){
             Log.d("LegoSetDetailFragment:", activity.toString() + " must Implement");
-        }
-    }
-
-    private void magicFunction(){
-        //  Get input from user
-        LegoSet inputLegoSet = getInput();
-        if(currentLegoSet == null){
-            inputLegoSet.setAutoId(-1l);
-            currentLegoSet = inputLegoSet;
-        }
-        inputLegoSet.setAutoId(currentLegoSet.getAutoId());
-        oldLegoSet = LegoSet.copy(currentLegoSet);
-        currentLegoSet = LegoSet.copy(inputLegoSet);
-
-        //  If input is different from old values
-        if(currentLegoSet.equals(oldLegoSet) && currentLegoSet.getAutoId() != -1l){
-            //  No Changes to data.
-            bttn_cancel.callOnClick();
-        }else {
-            ContentValues cv =  currentLegoSet.equalsByField(oldLegoSet);
-            String[] keys = new String[cv.size()];
-            cv.keySet().toArray(keys);
-            int i = 1;
-
-            if(!cv.getAsBoolean(keys[i++])){
-                //  check or set errors for legoSetId
-            }
-            if(!cv.getAsBoolean(keys[i++])){
-                //  Check or set errors for legoSetName
-            }
-            if(!cv.getAsBoolean(keys[i++])){
-                //  check or set errors for legoSetThemeId
-            }
-            if(!cv.getAsBoolean(keys[i++])){
-                //  check or set errors for legoSetThemeName
-            }
-            if (!cv.getAsBoolean(keys[i++])){
-                //  check or set errors for legoSetAcquiredDate
-            }
-            if(!cv.getAsBoolean(keys[i++])){
-                //  check or set errors for legoSetPieces
-            }
-            if(!cv.getAsBoolean(keys[i])){
-                //  check or set errors for legoSetQuantity
-            }
-        }
-        //  Test input from user
-
-        //  If bad input tell user where it was bad
-
-        //  If good input update or insert legoSet
-    }
-
-    public void updateLegoSet(LegoSet inputLegoSet){
-        if(!currentLegoSet.equalsId(inputLegoSet.getId())){
-            currentLegoSet.setId(inputLegoSet.getId());
-        }
-        if(!currentLegoSet.equalsName(inputLegoSet.getName())){
-            currentLegoSet.setName(inputLegoSet.getName());
-        }
-        if(!currentLegoSet.equalsThemeId(inputLegoSet.getThemeId())){
-            currentLegoSet.setThemeId(inputLegoSet.getThemeId());
-            currentLegoSet.setThemeName(inputLegoSet.getThemeName());
-        }
-        if(!currentLegoSet.equalsAcquiredDate(inputLegoSet.getAcquiredDate())){
-            currentLegoSet.setAcquiredDate(inputLegoSet.getAcquiredDate());
-        }
-        if(!currentLegoSet.equalsPieces(inputLegoSet.getPieces())){
-            currentLegoSet.setPieces(inputLegoSet.getPieces());
-        }
-        if(!currentLegoSet.equalsQuantity(inputLegoSet.getQuantity())){
-            currentLegoSet.setQuantity(inputLegoSet.getQuantity());
         }
     }
 }

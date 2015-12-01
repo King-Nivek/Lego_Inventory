@@ -12,12 +12,19 @@ ______________________________________________________________________________*/
 
 package albright.csit.legosetstracker;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
+
+import java.sql.SQLException;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 
 public class ActivityMenu extends AppCompatActivity {
 
@@ -33,18 +40,42 @@ public class ActivityMenu extends AppCompatActivity {
 
         switch (item.getItemId()) {
             case R.id.menuItem_sets:
-                Intent intent = new Intent(this, LegoSetListActivity.class);
-                startActivity(intent);
+                Intent intentSet = new Intent(this, LegoSetListActivity.class);
+                startActivity(intentSet);
                 break;
 
             case R.id.menuItem_themes:
-                toast = Toast.makeText(this, getText(R.string.menu_item_themes), Toast.LENGTH_LONG);
-                toast.show();
+                Intent intentTheme = new Intent(this, LegoThemeListActivity.class);
+                startActivity(intentTheme);
                 break;
 
             case R.id.menuItem_reports:
-                toast = Toast.makeText(this, getText(R.string.menu_item_reports), Toast.LENGTH_LONG);
-                toast.show();
+                try{
+                    DbConnection db = new DbConnection(this);
+                    db.open();
+                    DecimalFormat format = new DecimalFormat("###,###,##0");
+                    int numberOfSets, numberOfPieces, quantityOfSets;
+                    numberOfSets = db.numberOfLegoSets();
+                    numberOfPieces = db.numberOfPieces();
+                    quantityOfSets = db.quantityOfLegoSets();
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                    builder.setTitle("Sets by the Numbers:")
+                        .setMessage("Total Unique Sets: " + format.format(numberOfSets) + "  \n"
+                                  + "Total Set Quantity: " + format.format(quantityOfSets) + "  \n"
+                                  + "Total Pieces: " + format.format(numberOfPieces) + "  \n")
+                        .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .show();
+                    db.close();
+
+                }catch(SQLException e){
+                    Log.d("Reports Menu", "Open Database failed.");
+                }
                 break;
 
             default:

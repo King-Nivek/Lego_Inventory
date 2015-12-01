@@ -9,9 +9,9 @@
     <fragment
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:id="@+id/fragment_legoset_list"
+        android:id="@+id/fragment_legotheme_list"
         android:layout_weight="2"
-        android:name="albright.csit.legosetstracker.LegoSetListFragment"/>
+        android:name="albright.csit.legosetstracker.LegoThemeListFragment"/>
 
     <FrameLayout
         android:layout_width="0dp"

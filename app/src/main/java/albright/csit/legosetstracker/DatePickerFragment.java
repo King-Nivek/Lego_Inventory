@@ -70,7 +70,7 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
     public void onAttach(Context context) {
         super.onAttach(context);
         try {
-            Fragment fragContext = getFragmentManager().findFragmentById(R.id.legoset_detail_container);
+            Fragment fragContext = getFragmentManager().findFragmentById(R.id.lego_detail_container);
             _callback = (OnDatePickedListener) fragContext;
         } catch (ClassCastException e) {
             Log.d("DatePickerFragment---->", context.toString() + "must Implement");

@@ -217,7 +217,8 @@ public class DbConnection {
               + "WHERE " + TableLegoTheme._ID + " = " + id;
 
         Cursor c = database.rawQuery(queryStatement, null);
-        if(c != null) {
+        if(c.getCount() > 0) {
+            c.moveToFirst();
             int i = 0;
             legoTheme = new LegoTheme(c.getLong(i++), c.getString(i));
             c.close();
@@ -228,11 +229,12 @@ public class DbConnection {
     }
 
     public boolean hasLegoSetId(String id){
-        String query = "SELECT "
-                        + TableLegoSet._ID + ", "
-                        + TableLegoSet.ID + " "
-                     + "FROM " + TableLegoSet.TABLE_NAME + " "
-                     + "WHERE " + TableLegoSet.ID + " = '" + id + "'";
+        String query =
+            "SELECT "
+                + TableLegoSet._ID + ", "
+                + TableLegoSet.ID + " "
+            + "FROM " + TableLegoSet.TABLE_NAME + " "
+            + "WHERE " + TableLegoSet.ID + " = '" + id + "'";
         Cursor c = database.rawQuery(query, null);
         boolean hasId = (c.getCount() > 0);
         if(hasId){c.close();}
@@ -240,9 +242,10 @@ public class DbConnection {
     }
 
     public boolean hasLegoSet(long _id, String id){
-        String query = "SELECT "
-            + TableLegoSet._ID + ", "
-            + TableLegoSet.ID + " "
+        String query =
+            "SELECT "
+                + TableLegoSet._ID + ", "
+                + TableLegoSet.ID + " "
             + "FROM " + TableLegoSet.TABLE_NAME + " "
             + "WHERE " + TableLegoSet.ID + " = '" + id + "' AND " + TableLegoSet._ID + " = " + _id;
         Cursor c = database.rawQuery(query, null);
@@ -253,15 +256,62 @@ public class DbConnection {
 
 
     public boolean hasLegoThemeName(String name){
-        String query = "SELECT "
-            + TableLegoTheme._ID + ", "
-            + TableLegoTheme.NAME + " "
+        String query =
+            "SELECT "
+                + TableLegoTheme._ID + ", "
+                + TableLegoTheme.NAME + " "
             + "FROM " + TableLegoTheme.TABLE_NAME + " "
             + "WHERE " + TableLegoTheme.NAME + " = '" + name + "'";
         Cursor c = database.rawQuery(query, null);
         boolean hasId = (c.getCount() > 0);
         if(hasId){c.close();}
         return hasId;
+    }
+
+    public boolean usesTheme(long themeId){
+        String query =
+            "SELECT "
+                + TableLegoSet._ID + ", "
+                + TableLegoSet.THEME_ID + " "
+            + "FROM " + TableLegoSet.TABLE_NAME + " "
+            + "WHERE " + TableLegoSet.THEME_ID + " = " + themeId;
+        Cursor c = database.rawQuery(query, null);
+        boolean usesThemeId = (c.getCount() > 0);
+        if(usesThemeId){c.close();}
+        return usesThemeId;
+    }
+
+    public int numberOfLegoSets(){
+        String query =
+            "SELECT COUNT(" + TableLegoSet._ID + ") "
+            + "FROM " + TableLegoSet.TABLE_NAME;
+        Cursor c = database.rawQuery(query, null);
+        c.moveToFirst();
+        int count =  c.getInt(0);
+        c.close();
+        return count;
+    }
+
+    public int numberOfPieces(){
+        String query =
+            "SELECT SUM(" + TableLegoSet.PIECES + ") "
+            + "FROM " + TableLegoSet.TABLE_NAME;
+        Cursor c = database.rawQuery(query, null);
+        c.moveToFirst();
+        int count = c.getInt(0);
+        c.close();
+        return count;
+    }
+
+    public int quantityOfLegoSets(){
+        String query =
+            "SELECT SUM(" + TableLegoSet.QUANTITY + ") "
+                + "FROM " + TableLegoSet.TABLE_NAME;
+        Cursor c = database.rawQuery(query, null);
+        c.moveToFirst();
+        int count = c.getInt(0);
+        c.close();
+        return count;
     }
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////

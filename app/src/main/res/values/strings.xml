@@ -16,6 +16,8 @@
     <string name="update_hint_setNumber">Set ID:</string>
     <string name="update_hint_setName">Set Name:</string>
 
+    <string name="update_lbl_theme_info">Theme:</string>
+
     <string name="update_textView_lbl_theme">Theme:</string>
     <string name="update_button_theme_lbl_initialText">Choose a Theme</string>
     <string name="update_dialogTheme_title">Themes:</string>

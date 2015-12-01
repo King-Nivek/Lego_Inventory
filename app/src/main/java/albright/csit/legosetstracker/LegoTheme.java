@@ -11,6 +11,8 @@ Last Modified:  11.12.2015
 ______________________________________________________________________________*/
 package albright.csit.legosetstracker;
 
+import android.os.Bundle;
+
 public class LegoTheme {
     ////  Fields
     /////////////////////////////////////
@@ -49,6 +51,28 @@ public class LegoTheme {
     public LegoTheme(long themeId, String themeName) {
         this.autoId = themeId;
         this.name = themeName;
+    }
+
+    public Bundle writeBundle(){
+        Bundle b = new Bundle();
+        b.putLong(LegoTrackerDbContract.TableLegoTheme._ID, this.autoId);
+        b.putString(LegoTrackerDbContract.TableLegoTheme.NAME, this.name);
+        return b;
+    }
+
+    public static LegoTheme readBundle(Bundle b){
+        LegoTheme legoTheme = new LegoTheme();
+        legoTheme.setAutoId(b.getLong(LegoTrackerDbContract.TableLegoTheme._ID));
+        legoTheme.setName(b.getString(LegoTrackerDbContract.TableLegoTheme.NAME));
+        return legoTheme;
+    }
+
+    public boolean equals(LegoTheme that){
+        return ((this.autoId == that.autoId)
+            && (this.name.contentEquals(that.name)));
+    }
+    public static LegoTheme copy(LegoTheme legoTheme){
+        return new LegoTheme(legoTheme.getAutoId(), legoTheme.getName());
     }
 
     @Override

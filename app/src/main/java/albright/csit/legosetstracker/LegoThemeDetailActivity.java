@@ -5,10 +5,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 
-public class LegoSetDetailActivity extends ActivityMenu
-    implements LegoSetDetailFragment.OnSaveLegoSetListener{
+public class LegoThemeDetailActivity extends ActivityMenu
+    implements LegoThemeDetailFragment.OnSaveLegoThemeListener{
 
-    public static final String RESULTS = "LegoSetDetailActivity_Results";
+    public static final String RESULTS = "LegoThemeDetailActivity_Results";
 
 
     @Override
@@ -24,10 +24,10 @@ public class LegoSetDetailActivity extends ActivityMenu
 
         if(savedInstanceState == null){
             Bundle arguments = new Bundle();
-            arguments.putLong(LegoSetDetailFragment.ARG_ITEM_ID,
-                getIntent().getLongExtra(LegoSetDetailFragment.ARG_ITEM_ID,
-                                    LegoSetDetailFragment.INSERT_NEW_SET_ID));
-            LegoSetDetailFragment detailFragment = new LegoSetDetailFragment();
+            arguments.putLong(LegoThemeDetailFragment.ARG_ITEM_ID,
+                getIntent().getLongExtra(LegoThemeDetailFragment.ARG_ITEM_ID,
+                                    LegoThemeDetailFragment.INSERT_NEW_THEME_ID));
+            LegoThemeDetailFragment detailFragment = new LegoThemeDetailFragment();
             detailFragment.setArguments(arguments);
             getFragmentManager().beginTransaction()
                 .add(R.id.lego_detail_container, detailFragment, "detailFragment")
@@ -35,10 +35,10 @@ public class LegoSetDetailActivity extends ActivityMenu
         }
     }
 
-    public void onSaveLegoSet(LegoSet legoSet){
-        Bundle legoSetBundle = legoSet.writeBundle();
+    public void onSaveLegoTheme(LegoTheme legoTheme){
+        Bundle legoThemeBundle = legoTheme.writeBundle();
         Intent resultIntent = new Intent();
-        resultIntent.putExtra(RESULTS, legoSetBundle);
+        resultIntent.putExtra(RESULTS, legoThemeBundle);
         setResult(ActivityMenu.RESULT_OK, resultIntent);
         finish();
     }
