@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--  The major theme colors  -->
 <resources>
     <color name="colorPrimary">#e53935</color>
     <color name="colorPrimaryDark">#bf360c</color>

@@ -1,4 +1,9 @@
 <resources>
+    <!--
+    Most of the hard coded Strings used in the program.  But a few may have
+        slipped through and will need to be found and added at a later date.
+    -->
+
     <string name="app_name">Lego Sets Tracker</string>
     <string name="commonText_save">Save</string>
     <string name="commonText_cancel">Cancel</string>
@@ -33,17 +38,4 @@
     <string name="update_hint_quantityOwned">Quantity Owned:</string>
     <string name="update_button_save">@string/commonText_save</string>
     <string name="update_button_cancel">@string/commonText_cancel</string>
-
-
-    <!--  Enum Helpers  -->
-    <string name="type_set">TYPE_SET</string>
-    <string name="type_theme">TYPE_THEME</string>
-
-    <string name="sort_auto_id">sort_auto_id</string>
-    <string name="sort_id">SORT_ID</string>
-    <string name="sort_name">SORT_NAME</string>
-    <string name="sort_theme_id">SORT_THEME_ID</string>
-    <string name="sort_pieces">SORT_PIECES</string>
-    <string name="sort_acquired_date">SORT_ACQUIRED_DATE</string>
-    <string name="sort_quantity">SORT_QUANTITY</string>
 </resources>
