@@ -1,0 +1,9 @@
+## Android Lego Project
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Lego Set Tracker (Lego Set Inventory) is an Android application that will allow users to keep track of their Lego sets.  This application will allow a user to enter in new Lego sets, update sets, and delete sets.  It will also allow users to enter new Lego themes plus edit and delete themes.  There are validators in place to check that a set name has not already been used.  There are also validators to check that a theme has not already been entered and will also prevent a theme that is in use from being deleted.
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This application also has a basic report that will show the number of sets, the number of unique sets/non-duplicated sets, and the total number of parts in all sets.  New sets can be added, but old sets can also have their information updated.  
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The user is required to enter in Lego’s official set ID number.  They are also asked to enter in the Lego set name and the theme this set falls under.  The user can add a theme by selecting the Add New Theme button.  Once a valid theme has been entered or selected, the user can enter in the date they acquired the set.  If they choose not to put in a date, the current date is selected.  The user is also asked to enter the number of parts this set contains and the quantity they have of this set.  All Lego packages contain the Lego set ID number, Lego set name, Lego theme, and the number of pieces in the set.  If they have not filled all blanks, warnings are given beside the item that needs to be filled in.  Otherwise, when they hit Save, it will be saved to the local SQLite database.
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This application is written so that it can be utilized both on tablet size and phone size screens.
